@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import User from "../models/user.models.js"
 import { JWT_EXPIRES_IN, JWT_SECRET } from "../config/env.js"
 import jwt from "jsonwebtoken"
+import bcrypt from "bcryptjs"
 
 // request body is an object containing data from the client (POST request)
 export const signUp = async (req, res, next) => {
@@ -10,7 +11,7 @@ export const signUp = async (req, res, next) => {
 
   try {
     //take data from request
-    const { name, email, password } = req.body
+    const { username, email, password } = req.body
 
     // check if user already exists
     const existingUser = await User.findOne({ email })
@@ -25,7 +26,7 @@ export const signUp = async (req, res, next) => {
     const hasedPassword = await bcrypt.hash(password, salt)
 
     const newUser = await User.create([
-      { name, email, password: hasedPassword }
+      { username, email, password: hasedPassword }
     ])
 
     const token = jwt.sign({ userId: newUser[0].id }, JWT_SECRET, {
