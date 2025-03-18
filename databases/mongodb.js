@@ -1,12 +1,20 @@
 import mongoose from "mongoose"
+import { DB_URI } from "../config/env.js"
 
-const connectDB = async (req, res) => {
+if (!DB_URI) {
+  throw new Error(
+    "Please define the MongoDB_URL in enviroment variable inside .env"
+  )
+}
+
+const connectToDatabase = async () => {
   try {
-    await mongoose.connect(process.env.DB_URI)
-    console.log("Mongo is connected")
+    await mongoose.connect(DB_URI)
+    console.log(`Connected to database!!!`)
   } catch (error) {
-    console.log(error)
+    console.error("Error connecting to database: ", error)
+    process.exit(1)
   }
 }
 
-export default connectDB
+export default connectToDatabase
