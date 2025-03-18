@@ -1,7 +1,7 @@
 import { Router } from "express"
-import { getAllProductFromCart } from "../controllers/cart.controller"
+import { getAllProductFromCart } from "../controllers/cart.controller.js"
 
 const cartRouter = Router()
-authRoute.get("/:userId", getAllProductFromCart)
+cartRouter.get("/:userId", getAllProductFromCart)
 
 export default cartRouter

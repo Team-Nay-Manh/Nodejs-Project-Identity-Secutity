@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
-import User from "../models/user.models"
-import { JWT_EXPIRES_IN, JWT_SECRET } from "../config/env"
+import User from "../models/user.models.js"
+import { JWT_EXPIRES_IN, JWT_SECRET } from "../config/env.js"
 import jwt from "jsonwebtoken"
 
 // request body is an object containing data from the client (POST request)
