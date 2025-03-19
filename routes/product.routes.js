@@ -3,6 +3,7 @@ import {
   addProduct,
   getProduct,
   getProducts,
+  updateProduct,
 } from "../controllers/product.controller.js";
 import upload from "../multer/handle-upload.js";
 
@@ -16,5 +17,13 @@ productRouter.post(
     { name: "detailImages", maxCount: 10 },
   ]),
   addProduct
+);
+productRouter.put(
+  "/:productId",
+  upload.fields([
+    { name: "imageUrl", maxCount: 1 },
+    { name: "detailImages", maxCount: 10 },
+  ]),
+  updateProduct
 );
 export default productRouter;

@@ -67,3 +67,51 @@ export const addProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateProduct = async (req, res, next) => {
+  try {
+    const { productId } = req.params;
+    const { name, description, price, stock, category } = req.body;
+
+    // 1️⃣ Find the existing product
+    const product = await Product.findOne({ _id: productId });
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    // 2️⃣ Keep old images unless new ones are uploaded
+    const imageUrl = req.files?.imageUrl
+      ? req.files.imageUrl[0].path
+      : product.imageUrl;
+
+    const detailImages = req.files?.detailImages
+      ? [
+          ...product.detailImages,
+          ...req.files.detailImages.map((file) => file.path),
+        ]
+      : product.detailImages;
+
+    // 3️⃣ Update product details
+    product.name = name || product.name;
+    product.description = description || product.description;
+    product.price = price || product.price;
+    product.stock = stock !== undefined ? stock : product.stock;
+    product.category = category || product.category;
+    product.imageUrl = imageUrl;
+    product.detailImages = detailImages;
+
+    // 4️⃣ Save the updated product
+    await product.save();
+
+    res.json({
+      success: true,
+      message: "Product updated successfully",
+      data: product,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
