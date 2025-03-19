@@ -140,3 +140,41 @@ export const deleteProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+export const searchProduct = async (req, res, next) => {
+  try {
+    console.log("HI");
+    const { query } = req.query; // Get search query from URL
+    console.log("Search Query:", req.query.query);
+
+    if (!query) {
+      return res.status(400).json({
+        success: false,
+        message: "Search query is required",
+      });
+    }
+
+    // 1️⃣ Find products that match name, category, or description
+    const products = await Product.find({
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { category: { $regex: query, $options: "i" } },
+        { description: { $regex: query, $options: "i" } },
+      ],
+    });
+
+    if (products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No products found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: products,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

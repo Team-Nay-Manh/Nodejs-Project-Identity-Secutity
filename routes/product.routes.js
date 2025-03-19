@@ -4,13 +4,14 @@ import {
   deleteProduct,
   getProduct,
   getProducts,
+  searchProduct,
   updateProduct,
 } from "../controllers/product.controller.js";
 import upload from "../multer/handle-upload.js";
 
 const productRouter = Router();
+productRouter.get("/search", searchProduct);
 productRouter.get("/", getProducts);
-productRouter.get("/:productId", getProduct);
 productRouter.post(
   "/add",
   upload.fields([
@@ -19,6 +20,8 @@ productRouter.post(
   ]),
   addProduct
 );
+productRouter.get("/:productId", getProduct);
+
 productRouter.put(
   "/:productId",
   upload.fields([
