@@ -1,33 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Route, Routes } from "react-router-dom"
+import Navbar from "./components/navbar/Navbar"
+import Home from "./pages/Home/Home"
+import Cart from "./pages/Cart/Cart"
+import PlaceOrder from "./pages/PlaceOrder/PlaceOrder"
+import Footer from "./components/footer/Footer"
+import { useEffect, useState } from "react"
+import LoginPopup from "./components/login/LoginPopup"
+import ScrollToTop from "./components/srollToTop/ScrollToTop"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [showLogin, setShowLogin] = useState(false)
+  const [showButtonScrollToTop, setShowButtonScrollToTop] = useState(false)
+
+  useEffect(() => {
+    if (showLogin) {
+      document.body.style.overflow = "hidden" // Vô hiệu hóa cuộn
+    } else {
+      document.body.style.overflow = "auto" // Kích hoạt lại cuộn
+    }
+
+    window.addEventListener("scroll", toggleVisibility)
+
+    return () => {
+      window.removeEventListener("scroll", toggleVisibility)
+    }
+  }, [showLogin])
+
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 300) {
+      setShowButtonScrollToTop(true)
+    } else {
+      setShowButtonScrollToTop(false)
+    }
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
+      <div className='app'>
+        <Navbar setShowLogin={setShowLogin} />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/order' element={<PlaceOrder />} />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Footer />
+      {showButtonScrollToTop && <ScrollToTop />}
     </>
   )
 }
