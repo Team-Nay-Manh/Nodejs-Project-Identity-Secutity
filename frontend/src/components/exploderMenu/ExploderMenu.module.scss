@@ -1,0 +1,63 @@
+.explore-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  h1 {
+    color: #262626;
+    font-weight: 500;
+  }
+
+  &-text {
+    max-width: 60%;
+    color: #808080;
+
+    @media (max-width: 1050px) {
+      max-width: 100%;
+      font-size: 1.4rem;
+    }
+  }
+
+  &-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+    text-align: center;
+    margin: 2rem 0;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &-item {
+      img {
+        width: 7.5vw;
+        min-width: 8rem;
+        border-radius: 50%;
+        transition: 0.2s ease;
+        cursor: pointer;
+      }
+
+      p {
+        margin-top: 1rem;
+        color: #747474;
+        font-size: max(1.4vw, 1.6rem);
+        cursor: pointer;
+      }
+
+      .active {
+        border: 0.4rem solid tomato;
+        padding: 0.2rem;
+      }
+    }
+  }
+
+  hr {
+    margin: 2rem 0;
+    height: 0.2rem;
+    background-color: #e2e2e2;
+    border: none;
+  }
+}
