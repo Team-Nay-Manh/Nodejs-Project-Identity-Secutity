@@ -1,4 +1,4 @@
-const HTTP_STATUS = require("../config/http-status");
+const HTTP_STATUS = require("./http-status.js");
 const ReturnData = require("../models/returnData.model.js");
 
 const handleError = (res, error, status = HTTP_STATUS.INTERNAL_SERVER_ERROR) => {

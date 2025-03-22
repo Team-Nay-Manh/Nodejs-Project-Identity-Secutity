@@ -3,7 +3,7 @@ import User from "../models/user.models.js";
 import Product from "../models/product.model.js";
 const HTTP_STATUS = require("../config/http-status.js");
 const ReturnData = require("../models/returnData.model.js");
-const handleError = require("../utils/error-handler.js");
+const handleError = require("../config/error-handler.js");
 
 /**
  * 1.1 Thêm sản phẩm vào giỏ hàng
