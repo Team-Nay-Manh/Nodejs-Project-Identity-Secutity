@@ -5,21 +5,42 @@ import handleError from "../config/error-handler.js";
 
 export const getProducts = async (req, res, next) => {
   try {
-    let { page = 1, limit = 2 } = req.query;
-    page = parseInt(page);
+    let { next_cursor, limit = 2 } = req.query;
     limit = parseInt(limit);
 
-    if (page < 1 || limit < 1) {
+    if (limit < 1) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
         success: false,
-        message: "Page and limit must be positive numbers",
+        message: "Limit must be a positive number",
       });
     }
 
-    const totalProducts = await Product.countDocuments();
-    const products = await Product.find()
-      .limit(limit)
-      .skip((page - 1) * limit);
+    // Điều kiện truy vấn
+    const queryCondition = {};
+    if (next_cursor) {
+      queryCondition._id = { $gt: next_cursor }; // Lấy các sản phẩm có _id lớn hơn next_cursor
+    }
+
+    // Truy vấn sản phẩm, lấy thêm 1 để xác định next_cursor
+    const products = await Product.find(queryCondition)
+      .sort({ _id: 1 }) // Sắp xếp tăng dần theo _id
+      .limit(limit + 1); // Lấy thêm 1 sản phẩm để kiểm tra next_cursor mới
+
+    if (products.length === 0) {
+      return res.status(HTTP_STATUS.NOT_FOUND).json({
+        success: false,
+        message: "No products found",
+      });
+    }
+
+    // Xác định con trỏ mới (next_cursor)
+    const hasNextPage = products.length > limit;
+    const newCursor = hasNextPage ? products[limit]._id : null;
+
+    // Cắt danh sách về đúng giới hạn
+    if (hasNextPage) {
+      products.pop();
+    }
 
     const returnData = new ReturnData();
     returnData.success = true;
@@ -27,9 +48,9 @@ export const getProducts = async (req, res, next) => {
     returnData.data = {
       products,
       pagination: {
-        currentPage: page,
-        totalPages: Math.ceil(totalProducts / limit),
-        totalProducts,
+        next_cursor: newCursor,
+        limit,
+        hasNextPage,
       },
     };
 
@@ -38,6 +59,7 @@ export const getProducts = async (req, res, next) => {
     handleError(res, error);
   }
 };
+
 
 
 export const getProduct = async (req, res, next) => {
@@ -151,15 +173,17 @@ export const deleteProduct = async (req, res, next) => {
 
 export const searchProduct = async (req, res, next) => {
   try {
-    let { query, page = 1, limit = 2 } = req.query;
+    let { query, next_cursor, limit = 2 } = req.query;
+
     if (!query) {
-      getProducts(req,res,next);
+      return getProducts(req, res, next);
     }
-    page = +page;
+
     limit = +limit;
-    if (page < 1 || limit < 1) {
-      return handleError(res, "Page and limit must be positive numbers", HTTP_STATUS.BAD_REQUEST);
+    if (limit < 1) {
+      return handleError(res, "Limit must be a positive number", HTTP_STATUS.BAD_REQUEST);
     }
+
     const searchCondition = {
       $or: [
         { name: { $regex: query, $options: "i" } },
@@ -167,15 +191,28 @@ export const searchProduct = async (req, res, next) => {
         { description: { $regex: query, $options: "i" } },
       ],
     };
-    const totalProducts = await Product.countDocuments(searchCondition);
 
-    // Truy vấn với limit và skip
+    // Nếu có `next_cursor`, lọc chỉ lấy sản phẩm có `_id > next_cursor`
+    if (next_cursor) {
+      searchCondition._id = { $gt: next_cursor };
+    }
+
+    // Truy vấn với giới hạn `limit + 1` để kiểm tra `next_cursor` mới
     const products = await Product.find(searchCondition)
-      .limit(limit)
-      .skip((page - 1) * limit);
+      .sort({ _id: 1 }) // Sắp xếp tăng dần để lấy dữ liệu mới hơn
+      .limit(limit + 1); // Lấy thêm 1 sản phẩm để xác định con trỏ tiếp theo
 
     if (products.length === 0) {
       return handleError(res, "No products found", HTTP_STATUS.NOT_FOUND);
+    }
+
+    // Xác định con trỏ mới
+    const hasNextPage = products.length > limit;
+    const newCursor = hasNextPage ? products[limit]._id : null;
+
+    // Giới hạn lại số lượng sản phẩm trả về
+    if (hasNextPage) {
+      products.pop();
     }
 
     const returnData = new ReturnData();
@@ -184,9 +221,9 @@ export const searchProduct = async (req, res, next) => {
     returnData.data = {
       products,
       pagination: {
-        currentPage: page,
-        totalPages: Math.ceil(totalProducts / limit),
-        totalProducts,
+        next_cursor: newCursor,
+        limit,
+        hasNextPage,
       },
     };
 
