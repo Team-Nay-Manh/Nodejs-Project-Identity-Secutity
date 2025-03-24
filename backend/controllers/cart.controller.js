@@ -1,9 +1,9 @@
 import Cart from "../models/cart.model.js";
 import User from "../models/user.models.js";
 import Product from "../models/product.model.js";
-const HTTP_STATUS = require("../config/http-status.js");
-const ReturnData = require("../models/returnData.model.js");
-const handleError = require("../config/error-handler.js");
+import HTTP_STATUS from "../config/http-status.js";
+import ReturnData from "../models/returnData.model.js";
+import handleError from "../config/error-handler.js";
 
 export const addProductToCart = async (req, res) => {
   try {
