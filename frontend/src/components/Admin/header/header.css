@@ -1,0 +1,52 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.header-left h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.breadcrumb {
+  list-style: none;
+  display: flex;
+  gap: 5px;
+  padding: 0;
+  margin: 8px 0 0;
+}
+
+.breadcrumb li a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.breadcrumb li a.active {
+  font-weight: bold;
+  color: #333;
+}
+
+.report-download {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  background: #f5f5f5;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.report-download i {
+  margin-right: 5px;
+}
+
+.report-download:hover {
+  background: #007bff;
+  color: white;
+}

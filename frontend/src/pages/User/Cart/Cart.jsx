@@ -1,17 +1,17 @@
-import { useContext } from "react";
-import styles from "./Cart.module.scss";
-import classNames from "classnames/bind";
-import { StoreContext } from "../../context/StoreContext";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react"
+import styles from "./Cart.module.scss"
+import classNames from "classnames/bind"
+import { StoreContext } from "../../../context/StoreContext"
+import { useNavigate } from "react-router-dom"
 
-const cx = classNames.bind(styles);
+const cx = classNames.bind(styles)
 
 function Cart() {
   const { cartItem, food_list, removeFromCart, getTotalAmount } =
-    useContext(StoreContext);
+    useContext(StoreContext)
 
-  const navigate = useNavigate();
-  let feeDelivery = getTotalAmount() === 0 ? 0 : 2;
+  const navigate = useNavigate()
+  let feeDelivery = getTotalAmount() === 0 ? 0 : 2
 
   return (
     <div className={cx("cart")}>
@@ -32,7 +32,7 @@ function Cart() {
             return (
               <div key={index}>
                 <div className={cx("cart-items-title", "cart-items-item")}>
-                  <img src={food.image} alt="Food" />
+                  <img src={food.image} alt='Food' />
                   <p>{food.name}</p>
                   <p>${food.price}</p>
                   <p>{cartItem[food._id]}</p>
@@ -46,7 +46,7 @@ function Cart() {
                 </div>
                 <hr />
               </div>
-            );
+            )
           }
         })}
       </div>
@@ -78,14 +78,14 @@ function Cart() {
           <div>
             <p>If you have a promo code, Enter it here</p>
             <div className={cx("cart-promocode-input")}>
-              <input type="text" placeholder="PromoCode" />
+              <input type='text' placeholder='PromoCode' />
               <button>Submit</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Cart;
+export default Cart

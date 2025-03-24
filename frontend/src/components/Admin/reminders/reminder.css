@@ -1,0 +1,71 @@
+.reminders {
+  flex-grow: 1;
+  flex-basis: 300px;
+  background: var(--light);
+  border-radius: 20px;
+  padding: 24px;
+  overflow-x: auto;
+}
+
+.reminders .header {
+  display: flex;
+  align-items: center;
+  grid-gap: 16px;
+  margin-bottom: 24px;
+}
+
+.reminders .header h3 {
+  margin-right: auto;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.reminders .header .bx {
+  cursor: pointer;
+}
+
+.reminders .task-list {
+  width: 100%;
+}
+
+.reminders .task-list li {
+  width: 100%;
+  margin-bottom: 16px;
+  background: var(--grey);
+  padding: 14px 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reminders .task-list li .task-title {
+  display: flex;
+  align-items: center;
+}
+
+.reminders .task-list li .task-title p {
+  margin-left: 6px;
+}
+
+.reminders .task-list li .bx {
+  cursor: pointer;
+}
+
+.reminders .task-list li.completed {
+  border-left: 10px solid var(--success);
+}
+
+.reminders .task-list li.not-completed {
+  border-left: 10px solid var(--danger);
+}
+
+.reminders .task-list li:last-child {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 576px) {
+  .reminders .task-list {
+    min-width: 340px;
+  }
+}
