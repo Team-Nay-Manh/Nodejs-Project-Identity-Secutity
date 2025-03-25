@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom"
 
-function SidebarItem({ to, lastSegment, icon }) {
+function SidebarItem({ to, lastSegment, className }) {
   return (
     <li className={`${lastSegment === to ? "active" : ""}`}>
       <Link to={`/admin/${to}`}>
-        {icon}
+        <icon className={className}></icon>
         {to}
       </Link>
     </li>
