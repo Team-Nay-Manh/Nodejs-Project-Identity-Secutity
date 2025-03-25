@@ -17,5 +17,7 @@ const CartSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
+CartSchema.index({ userId: 1 });
+
 const Cart = mongoose.model("Cart", CartSchema)
 export default Cart
