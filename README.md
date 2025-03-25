@@ -13,19 +13,22 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd frontend / cd backend
+  cd frontend for UI
+  cd backend for server
 ```
 
 Install dependencies
 
 ```bash
-  npm install
+  npm install (both frontend & backend) -> shorthand in terminal: npm i
 ```
 
 Start the server
 
 ```bash
   npm run dev
+  Frontend use port:5173 -> http://localhost:5173/
+  Backend use port 5500 -> http://localhost:5500/
 ```
 
 ## Screenshots
