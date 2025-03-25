@@ -1,18 +1,43 @@
-# Nodejs-Project-Identity-Secutity
+# NodeJS-Project-Idnetity-Security
 
-### CÁCH CÀI ĐẶT VÀ KHỞI CHẠY DỰ ÁN LẦN ĐẦU SAU KHI CLONE.
+## This is a food ordering website where users can select their favorite dishes and then complete the steps of confirming their address and making a payment. The website is built using React for the frontend and Node.js for the backend.
 
-1. Cài đặt các dependencies:
+## Run Locally
 
-- Trước khi chạy dự án, hãy đảm bảo bạn đã cài đặt Node.js và npm. Sau đó, chạy lệnh sau trong cả thư mục frontend và backend để cài đặt dependencies:
+Clone the project
+
+```bash
+  git clone https://github.com/Team-Nay-Manh/Nodejs-Project-Identity-Secutity.git
+```
+
+Go to the project directory
+
+```bash
+  cd frontend / cd backend
+```
+
+Install dependencies
+
+```bash
   npm install
+```
 
-2. Chạy Backend:
+Start the server
 
-- Di chuyển vào thư mục backend và chạy lệnh:
+```bash
   npm run dev
+```
 
-3. Chạy Frontend:
+## Screenshots
 
-- Tương tự, di chuyển vào thư mục frontend và chạy lệnh:
-  npm run dev
+![App Screenshot](frontend/src/assets/screen-shot.png)
+
+## Used By
+
+Comming soon...
+
+## Support
+
+For support, email VietBuoiTo@gmail.com
+
+![Logo](frontend/src/assets/logo.png)
