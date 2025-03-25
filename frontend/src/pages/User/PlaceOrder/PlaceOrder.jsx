@@ -1,18 +1,18 @@
-import { useContext } from "react";
-import styles from "./PlaceOrder.module.scss";
-import classNames from "classnames/bind";
-import { StoreContext } from "../../context/StoreContext";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react"
+import styles from "./PlaceOrder.module.scss"
+import classNames from "classnames/bind"
+import { StoreContext } from "../../../context/StoreContext"
+import { useNavigate } from "react-router-dom"
 
-const cx = classNames.bind(styles);
+const cx = classNames.bind(styles)
 function PlaceOrder() {
-  const { getTotalAmount, btnPay } = useContext(StoreContext);
-  const navigate = useNavigate();
-  let feeDelivery = getTotalAmount() === 0 ? 0 : 2;
+  const { getTotalAmount, btnPay } = useContext(StoreContext)
+  const navigate = useNavigate()
+  let feeDelivery = getTotalAmount() === 0 ? 0 : 2
 
   function submitFormPay() {
-    btnPay();
-    navigate("/");
+    btnPay()
+    navigate("/")
   }
 
   return (
@@ -20,20 +20,20 @@ function PlaceOrder() {
       <div className={cx("place-order-left")}>
         <p className={cx("title")}>Delivery Information</p>
         <div className={cx("multi-fields")}>
-          <input type="text" placeholder="Firt Name" />
-          <input type="text" placeholder="Last Name" />
+          <input type='text' placeholder='Firt Name' />
+          <input type='text' placeholder='Last Name' />
         </div>
-        <input type="email" placeholder="Email Address" />
-        <input type="text" placeholder="Street" />
+        <input type='email' placeholder='Email Address' />
+        <input type='text' placeholder='Street' />
         <div className={cx("multi-fields")}>
-          <input type="text" placeholder="City" />
-          <input type="text" placeholder="State" />
+          <input type='text' placeholder='City' />
+          <input type='text' placeholder='State' />
         </div>
         <div className={cx("multi-fields")}>
-          <input type="text" placeholder="Zip code" />
-          <input type="text" placeholder="Country" />
+          <input type='text' placeholder='Zip code' />
+          <input type='text' placeholder='Country' />
         </div>
-        <input type="text" placeholder="Phone" />
+        <input type='text' placeholder='Phone' />
       </div>
       <div className={cx("place-order-right")}>
         <div className={cx("cart-total")}>
@@ -58,7 +58,7 @@ function PlaceOrder() {
         </div>
       </div>
     </form>
-  );
+  )
 }
 
-export default PlaceOrder;
+export default PlaceOrder
