@@ -4,10 +4,10 @@ import { Link, useLocation } from "react-router-dom"
 import SidebarItem from "./SidebarItem"
 
 const menuItem = [
-  { to: "Home", icon: <i className='bx bxs-dashboard'></i> },
-  { to: "Products", icon: <i className='bx bx-store-alt'></i> },
-  { to: "Orders", icon: <i className='bx bx-analyse'></i> },
-  { to: "Users", icon: <i className='bx bx-group'></i> }
+  { to: "Home", classname: "bx bxs-dashboard" },
+  { to: "Products", classname: "bx bx-store-alt" },
+  { to: "Orders", classname: "bx bx-analyse" },
+  { to: "Users", classname: "bx bx-group" }
 ]
 
 const Sidebar = () => {
@@ -29,7 +29,7 @@ const Sidebar = () => {
             to={item.to}
             key={item}
             lastSegment={lastSegment}
-            icon={item.icon}
+            className={item.classname}
           />
         ))}
       </ul>
