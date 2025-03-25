@@ -1,4 +1,4 @@
-module.exports = class ReturnData {
+class ReturnData {
     constructor() {
       this.success = false;
       this.message = this.defaultMessage();
@@ -28,3 +28,5 @@ module.exports = class ReturnData {
       return JSON.stringify(this.toObject());
     }
   };
+
+export default ReturnData;

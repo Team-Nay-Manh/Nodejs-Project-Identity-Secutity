@@ -1,7 +1,34 @@
-import { Router } from "express"
-import { getProduct, getProducts } from "../controllers/product.controller.js"
+import { Router } from "express";
+import {
+  addProduct,
+  deleteProduct,
+  getProduct,
+  getProducts,
+  searchProduct,
+  updateProduct,
+} from "../controllers/product.controller.js";
+import upload from "../multer/handle-upload-img.js";
 
-const productRouter = Router()
-productRouter.get("/", getProducts)
-productRouter.get("/:productId", getProduct)
-export default productRouter
+const productRouter = Router();
+productRouter.get("/search", searchProduct);
+productRouter.get("/", getProducts);
+productRouter.post(
+  "/add",
+  upload.fields([
+    { name: "imageUrl", maxCount: 1 },
+    { name: "detailImages", maxCount: 10 },
+  ]),
+  addProduct
+);
+productRouter.get("/:productId", getProduct);
+
+productRouter.put(
+  "/:productId",
+  upload.fields([
+    { name: "imageUrl", maxCount: 1 },
+    { name: "detailImages", maxCount: 10 },
+  ]),
+  updateProduct
+);
+productRouter.delete("/:productId", deleteProduct);
+export default productRouter;

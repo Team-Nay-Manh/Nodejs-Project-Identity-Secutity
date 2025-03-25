@@ -1,6 +1,5 @@
-const HTTP_STATUS = require("./http-status.js");
-const ReturnData = require("../models/returnData.model.js");
-
+import HTTP_STATUS from "../config/http-status.js";
+import ReturnData from "../models/returnData.model.js";
 const handleError = (res, error, status = HTTP_STATUS.INTERNAL_SERVER_ERROR) => {
   console.error(error);
   const returnData = new ReturnData();
@@ -9,4 +8,4 @@ const handleError = (res, error, status = HTTP_STATUS.INTERNAL_SERVER_ERROR) => 
   return res.status(status).json(returnData.toObject());
 };
 
-module.exports = handleError;
+export default handleError;
