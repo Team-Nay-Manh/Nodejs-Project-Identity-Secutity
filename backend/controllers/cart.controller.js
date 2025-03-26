@@ -193,7 +193,7 @@ export const clearCart = async (req, res) => {
 
 export const getAllProductFromCart = async (req, res, next) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
 
     if (!userId) {
       return handleError(
