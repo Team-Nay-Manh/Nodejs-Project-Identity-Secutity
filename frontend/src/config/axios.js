@@ -18,4 +18,15 @@ apiRequest.interceptors.request.use(
   (error) => Promise.reject(error)
 )
 
+apiRequest.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      Cookies.remove("token")
+      window.location.href = "/login" // Chuyển hướng về trang đăng nhập
+    }
+    return Promise.reject(error)
+  }
+)
+
 export default apiRequest
