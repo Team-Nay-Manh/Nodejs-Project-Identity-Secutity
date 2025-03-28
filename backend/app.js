@@ -1,5 +1,5 @@
 import express from "express"
-import { PORT } from "./config/env.js"
+import { CLIENT_URL, PORT } from "./config/env.js"
 import userRouter from "./routes/user.routes.js"
 import authRouter from "./routes/auth.routes.js"
 import connectToDatabase from "./databases/mongodb.js"
@@ -9,12 +9,14 @@ import cartRouter from "./routes/cart.routes.js"
 import productRouter from "./routes/product.routes.js"
 import orderRouter from "./routes/order.routes.js"
 import categoryRouter from "./routes/category.routes.js"
+import cors from "cors"
 
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(cors({ origin: CLIENT_URL, credentials: true }))
 
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/users", userRouter)

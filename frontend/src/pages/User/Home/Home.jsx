@@ -1,15 +1,16 @@
+import classNames from "classnames/bind"
 import { useState } from "react"
+import AppDowload from "../../../components/appdowload/AppDownload"
 import ExploderMenu from "../../../components/exploderMenu/ExploderMenu"
+import FoodList from "../../../components/food/FoodList"
 import Header from "../../../components/header/Header"
 import styles from "./Home.module.scss"
-import classNames from "classnames/bind"
-import FoodList from "../../../components/food/FoodList"
-import AppDowload from "../../../components/appdowload/AppDownload"
 
 const cx = classNames.bind(styles)
 
 const Home = () => {
   const [category, setCategory, cartItem] = useState("All")
+
   console.log(cartItem)
 
   return (

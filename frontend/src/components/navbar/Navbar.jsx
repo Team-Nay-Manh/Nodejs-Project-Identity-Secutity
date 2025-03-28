@@ -5,12 +5,14 @@ import classNames from "classnames/bind"
 import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
 import { StoreContext } from "../../context/StoreContext.jsx"
+import useAuthStore from "../../utils/authStore.js"
 
 const cx = classNames.bind(styles)
 
 const Navbar = () => {
   const [menu, setMenu] = useState("menu")
   const { getTotalAmount, getItemFromCart } = useContext(StoreContext)
+  const { currentUser } = useAuthStore()
 
   return (
     <div className={cx("navbar")} id='navbar'>
@@ -58,9 +60,15 @@ const Navbar = () => {
           </div>
         </Link>
 
-        <Link className={cx("button-login")} to='/login'>
-          Sign in
-        </Link>
+        {currentUser ? (
+          <div>
+            <img src='' alt='' />
+          </div>
+        ) : (
+          <Link className={cx("button-login")} to='/login'>
+            Sign in
+          </Link>
+        )}
       </div>
     </div>
   )

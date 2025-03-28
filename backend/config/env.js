@@ -1,6 +1,6 @@
-import { config } from "dotenv";
+import { config } from "dotenv"
 
-config({ path: `.env` });
+config({ path: `.env` })
 export const {
   PORT,
   SERVER_URL,
@@ -10,4 +10,5 @@ export const {
   CLOUDINARY_SECRET,
   CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY,
-} = process.env;
+  CLIENT_URL
+} = process.env
