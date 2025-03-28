@@ -85,28 +85,25 @@ export const getProduct = async (req, res, next) => {
 
 export const addProduct = async (req, res, next) => {
   try {
-    const { name, description, price, stock, category } = req.body
-    if (!name || !price || stock === undefined || !category) {
+    const { name, description, price, category } = req.body
+    if (!name || !price || !category) {
       return handleError(
         res,
-        "Name, price, and stock are required",
+        "Name, price, and category are required",
         HTTP_STATUS.BAD_REQUEST
       )
     }
     if (!mongoose.Types.ObjectId.isValid(category)) {
       return handleError(res, "Invalid category ID", HTTP_STATUS.BAD_REQUEST)
     }
-    const imageUrl = req.files?.imageUrl ? req.files.imageUrl[0].path : null
-    const detailImages = req.files?.detailImages?.map((file) => file.path) || []
+    const image = req.file ? req.file.path : null
 
     const newProduct = await Product.create({
       name,
       description,
       price,
-      stock,
       category,
-      imageUrl,
-      detailImages,
+      image,
     })
 
     const returnData = new ReturnData()
@@ -122,7 +119,7 @@ export const addProduct = async (req, res, next) => {
 export const updateProduct = async (req, res, next) => {
   try {
     const { productId } = req.params
-    const { name, description, price, stock, category } = req.body
+    const { name, description, price, category } = req.body
 
     const product = await Product.findOne({ _id: productId })
     if (!product) {
@@ -134,18 +131,10 @@ export const updateProduct = async (req, res, next) => {
     product.name = name || product.name
     product.description = description || product.description
     product.price = price || product.price
-    product.stock = stock !== undefined ? stock : product.stock
     product.category = category || product.category
-    product.imageUrl = req.files?.imageUrl
-      ? req.files.imageUrl[0].path
-      : product.imageUrl
-    product.detailImages = req.files?.detailImages
-      ? [
-          ...product.detailImages,
-          ...req.files.detailImages.map((file) => file.path),
-        ]
-      : product.detailImages
-
+    if (req.file) {
+      product.image = req.file.path
+    }
     await product.save()
     await product.populate("category")
 

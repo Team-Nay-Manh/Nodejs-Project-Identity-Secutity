@@ -11,7 +11,7 @@ import upload from "../multer/handle-upload-img.js"
 const categoryRouter = Router()
 
 // Create a new category
-categoryRouter.post("/add", upload.single("imageUrl"), addCategory)
+categoryRouter.post("/add", upload.single("image"), addCategory)
 
 // Get all categories
 categoryRouter.get("/", getCategories)
@@ -20,7 +20,7 @@ categoryRouter.get("/", getCategories)
 categoryRouter.get("/:categoryId", getCategory)
 
 // Update a category by ID
-categoryRouter.put("/:categoryId", upload.single("imageUrl"), updateCategory)
+categoryRouter.put("/:categoryId", upload.single("image"), updateCategory)
 
 // Delete a category by ID
 categoryRouter.delete("/:categoryId", deleteCategory)

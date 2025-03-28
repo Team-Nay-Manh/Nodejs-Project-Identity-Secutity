@@ -44,15 +44,14 @@ export const getCategory = async (req, res, next) => {
 
 export const addCategory = async (req, res, next) => {
   try {
-    const { name, description } = req.body
+    const { name } = req.body
     if (!name) {
       return handleError(res, "Name is required", HTTP_STATUS.BAD_REQUEST)
     }
-    const imageUrl = req.file ? req.file.path : null
+    const image = req.file ? req.file.path : null
     const newCategory = await Category.create({
       name,
-      description,
-      imageUrl,
+      image,
     })
 
     const returnData = new ReturnData()
@@ -69,7 +68,7 @@ export const addCategory = async (req, res, next) => {
 export const updateCategory = async (req, res, next) => {
   try {
     const { categoryId } = req.params
-    const { name, description } = req.body
+    const { name } = req.body
 
     const category = await Category.findOne({ _id: categoryId })
     if (!category) {
@@ -77,8 +76,7 @@ export const updateCategory = async (req, res, next) => {
     }
 
     category.name = name || category.name
-    category.description = description || category.description
-    category.imageUrl = req.file ? req.file.path : category.imageUrl
+    category.image = req.file ? req.file.path : category.image
 
     await category.save()
 
