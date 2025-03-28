@@ -23,12 +23,3 @@ export const register = async (crendentials) => {
     throw new Error(error.message)
   }
 }
-
-export const logout = async () => {
-  try {
-    const res = await apiRequest.post("/api/v1/auth/sign-out")
-    return res.message
-  } catch (error) {
-    throw new Error(error.message)
-  }
-}

@@ -15,7 +15,6 @@ export function useLogin() {
     mutationFn: (credentials) => loginService(credentials),
     onSuccess: (data) => {
       toast.success("Login successfully!!!")
-      console.log(data)
       setCurrentUser(data.data.user)
       navigate("/")
     },

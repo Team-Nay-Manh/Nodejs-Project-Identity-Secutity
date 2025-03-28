@@ -1,27 +1,27 @@
-import { useContext, useState } from "react"
-import { assets } from "../../assets/assets.js"
-import styles from "./Navbar.module.scss"
 import classNames from "classnames/bind"
-import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
+import { useContext, useState } from "react"
+import toast from "react-hot-toast"
+import { Link } from "react-router-dom"
+import { assets } from "../../assets/assets.js"
 import { StoreContext } from "../../context/StoreContext.jsx"
 import useAuthStore from "../../utils/authStore.js"
-import { useLogout } from "../../pages/User/Login/useLogout.js"
+import styles from "./Navbar.module.scss"
 
 const cx = classNames.bind(styles)
 
 const Navbar = () => {
   const [menu, setMenu] = useState("menu")
   const { getTotalAmount, getItemFromCart } = useContext(StoreContext)
-  const { currentUser } = useAuthStore()
-  const { logout } = useLogout()
+  const { currentUser, removeCurrentUser } = useAuthStore()
 
   const [open, setOpen] = useState(false)
   console.log(currentUser)
 
   const handleLogout = () => {
     setOpen(false)
-    logout()
+    removeCurrentUser()
+    toast.success("Logout Successfully!!!")
   }
 
   return (
