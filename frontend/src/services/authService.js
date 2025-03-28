@@ -1,8 +1,14 @@
 import apiRequest from "../config/axios"
+import Cookies from "js-cookie"
 
 export const login = async (crendentials) => {
   try {
     const res = await apiRequest.post("/api/v1/auth/sign-in", crendentials)
+    Cookies.set("token_identity", res.data.data.token, {
+      expires: import.meta.env.JWT_EXPIRES_IN,
+      secure: true,
+      sameSite: "Strict"
+    })
     return res.data
   } catch (error) {
     throw new Error(error.message)
@@ -20,8 +26,8 @@ export const register = async (crendentials) => {
 
 export const logout = async () => {
   try {
-    const res = await apiRequest.post("/api/v1/auth/logout")
-    return res.data
+    const res = await apiRequest.post("/api/v1/auth/sign-out")
+    return res.message
   } catch (error) {
     throw new Error(error.message)
   }
