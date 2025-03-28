@@ -6,9 +6,13 @@ const ProductSchema = new mongoose.Schema(
     description: { type: String },
     price: { type: Number, required: true },
     stock: { type: Number, required: true, default: 0 },
-    category: { type: String },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    }, // Reference to Category
     imageUrl: { type: String },
-    detailImages: [{ type: String }] // Danh sách ảnh chi tiết của sản phẩm
+    detailImages: [{ type: String }], // Danh sách ảnh chi tiết của sản phẩm
   },
   { timestamps: true }
 )
