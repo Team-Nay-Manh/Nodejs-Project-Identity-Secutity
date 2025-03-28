@@ -9,12 +9,6 @@ import cartRouter from "./routes/cart.routes.js"
 import productRouter from "./routes/product.routes.js"
 import orderRouter from "./routes/order.routes.js"
 import cors from "cors"
-
->>>>>>> origin/SCRUM-31-Feature-Login-in-Frontend
-=======
-=======
-
->>>>>>> origin/SCRUM-31-Feature-Login-in-Frontend
 const app = express()
 
 app.use(cors({
