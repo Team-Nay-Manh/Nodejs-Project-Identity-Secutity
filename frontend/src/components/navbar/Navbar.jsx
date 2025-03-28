@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
 import { StoreContext } from "../../context/StoreContext.jsx"
 import useAuthStore from "../../utils/authStore.js"
+import { useLogout } from "../../pages/User/Login/useLogout.js"
 
 const cx = classNames.bind(styles)
 
@@ -13,6 +14,15 @@ const Navbar = () => {
   const [menu, setMenu] = useState("menu")
   const { getTotalAmount, getItemFromCart } = useContext(StoreContext)
   const { currentUser } = useAuthStore()
+  const { logout } = useLogout()
+
+  const [open, setOpen] = useState(false)
+  console.log(currentUser)
+
+  const handleLogout = () => {
+    setOpen(false)
+    logout()
+  }
 
   return (
     <div className={cx("navbar")} id='navbar'>
@@ -61,8 +71,22 @@ const Navbar = () => {
         </Link>
 
         {currentUser ? (
-          <div>
-            <img src='' alt='' />
+          <div className={cx("avatar")}>
+            <img
+              src={assets.noAvatar}
+              alt='avatar'
+              className={cx("avatar_img")}
+              onClick={() => setOpen((pre) => !pre)}
+            />
+            {open && (
+              <section className={cx("avatar_dropdown")}>
+                <ul className={cx("dropdown_list")}>
+                  <li className={cx("dropdown_item")} onClick={handleLogout}>
+                    Logout
+                  </li>
+                </ul>
+              </section>
+            )}
           </div>
         ) : (
           <Link className={cx("button-login")} to='/login'>

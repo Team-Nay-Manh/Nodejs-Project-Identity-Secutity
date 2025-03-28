@@ -6,9 +6,6 @@ const userRouter = Router()
 
 userRouter.get("/", getUsers)
 userRouter.get("/:id", authorize, getUser)
-userRouter.post("/", (req, res) => {
-  return res.send({ title: "Create  user" })
-})
 
 userRouter.put("/:id", (req, res) => {
   return res.send({ title: "Update user" })
