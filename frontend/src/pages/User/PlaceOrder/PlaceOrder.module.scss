@@ -76,12 +76,31 @@
   }
 
   .cart-total-details {
-    display: flex;
-    justify-content: space-between;
     margin-top: 1rem;
     padding-top: 1rem;
     border-top: 2px solid #eee;
-    font-weight: bold;
+
+    .subtotal,
+    .shipping,
+    .total {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .shipping {
+      color: #666;
+      font-size: 0.9rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dashed #eee;
+    }
+
+    .total {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #1890ff;
+    }
   }
 
   .submit-button {
