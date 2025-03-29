@@ -13,13 +13,12 @@ const Navbar = () => (
       </div>
     </form>
     <input type='checkbox' id='theme-toggle' hidden />
-    <label htmlFor='theme-toggle' className='theme-toggle'></label>
     <a href='#' className='notif'>
       <i className='bx bx-bell'></i>
       <span className='count'>12</span>
     </a>
     <a href='#' className='profile'>
-      <img src='images/logo.png' alt='profile' />
+      <img src='/noAvatar.png' alt='profile' />
     </a>
   </nav>
 )
