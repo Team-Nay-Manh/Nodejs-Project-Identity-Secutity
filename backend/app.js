@@ -10,7 +10,6 @@ import productRouter from "./routes/product.routes.js"
 import orderRouter from "./routes/order.routes.js"
 import categoryRouter from "./routes/category.routes.js"
 import cors from "cors"
-
 const app = express()
 
 app.use(express.json())
