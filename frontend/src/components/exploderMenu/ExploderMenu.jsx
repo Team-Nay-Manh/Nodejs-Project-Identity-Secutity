@@ -1,11 +1,14 @@
-import styles from "./ExploderMenu.module.scss";
-import classNames from "classnames/bind";
-import PropTypes from "prop-types";
-import { menu_list } from "../../assets/assets";
+import styles from "./ExploderMenu.module.scss"
+import classNames from "classnames/bind"
+import PropTypes from "prop-types"
+import { useContext } from "react"
+import { StoreContext } from "../../context/StoreContext"
 
-const cx = classNames.bind(styles);
+const cx = classNames.bind(styles)
 
 function ExploderMenu({ category, setCategory }) {
+  const { categories } = useContext(StoreContext) // Get categories from context
+
   return (
     <div className={cx("container")} id="explore-menu">
       <h1>Explore our menu</h1>
@@ -15,33 +18,31 @@ function ExploderMenu({ category, setCategory }) {
         one delicious meal at a time
       </p>
       <div className={cx("explore-menu-list")}>
-        {menu_list.map((item, index) => (
+        {categories.map((item) => (
           <div
             onClick={() =>
-              setCategory((pre) =>
-                pre === item.menu_name ? "All" : item.menu_name
-              )
+              setCategory((pre) => (pre === item.name ? "All" : item.name))
             }
             className={cx("explore-menu-list-item")}
-            key={index}
+            key={item._id}
           >
             <img
-              className={category === item.menu_name ? cx("active") : ""}
-              src={item.menu_image}
+              className={category === item.name ? cx("active") : ""}
+              src={item.image}
               alt="Item menu"
             />
-            <p>{item.menu_name}</p>
+            <p>{item.name}</p>
           </div>
         ))}
       </div>
       <hr />
     </div>
-  );
+  )
 }
 
-export default ExploderMenu;
+export default ExploderMenu
 
 ExploderMenu.propTypes = {
   category: PropTypes.string,
   setCategory: PropTypes.func,
-};
+}
