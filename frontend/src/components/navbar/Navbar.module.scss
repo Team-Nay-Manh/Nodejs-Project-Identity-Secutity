@@ -120,3 +120,37 @@
 .active {
   border-bottom: 2px solid #49557e;
 }
+
+.avatar {
+  position: relative;
+
+  &_img {
+    width: 48px;
+    height: 48px;
+  }
+
+  &_dropdown {
+    position: absolute;
+    right: -150%;
+    top: 110%;
+    box-shadow: 0 0 4px 0 rgb(0, 0, 0, 0.1);
+
+    .dropdown_list {
+      padding: 10px;
+      background-color: rgb(176, 170, 170);
+      border-radius: 3px;
+
+      .dropdown_item {
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 14px;
+        background-color: white;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgb(210, 201, 201);
+        }
+      }
+    }
+  }
+}
