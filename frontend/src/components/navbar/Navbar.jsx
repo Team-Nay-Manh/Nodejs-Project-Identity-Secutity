@@ -1,18 +1,28 @@
-import { useContext, useState } from "react"
-import { assets } from "../../assets/assets.js"
-import styles from "./Navbar.module.scss"
 import classNames from "classnames/bind"
-import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
+import { useContext, useState } from "react"
+import toast from "react-hot-toast"
+import { Link } from "react-router-dom"
+import { assets } from "../../assets/assets.js"
 import { StoreContext } from "../../context/StoreContext.jsx"
 import useAuthStore from "../../utils/authStore.js"
+import styles from "./Navbar.module.scss"
 
 const cx = classNames.bind(styles)
 
 const Navbar = () => {
   const [menu, setMenu] = useState("menu")
   const { getTotalAmount, getItemFromCart } = useContext(StoreContext)
-  const { currentUser } = useAuthStore()
+  const { currentUser, removeCurrentUser } = useAuthStore()
+
+  const [open, setOpen] = useState(false)
+  console.log(currentUser)
+
+  const handleLogout = () => {
+    setOpen(false)
+    removeCurrentUser()
+    toast.success("Logout Successfully!!!")
+  }
 
   return (
     <div className={cx("navbar")} id='navbar'>
@@ -61,8 +71,22 @@ const Navbar = () => {
         </Link>
 
         {currentUser ? (
-          <div>
-            <img src='' alt='' />
+          <div className={cx("avatar")}>
+            <img
+              src={assets.noAvatar}
+              alt='avatar'
+              className={cx("avatar_img")}
+              onClick={() => setOpen((pre) => !pre)}
+            />
+            {open && (
+              <section className={cx("avatar_dropdown")}>
+                <ul className={cx("dropdown_list")}>
+                  <li className={cx("dropdown_item")} onClick={handleLogout}>
+                    Logout
+                  </li>
+                </ul>
+              </section>
+            )}
           </div>
         ) : (
           <Link className={cx("button-login")} to='/login'>

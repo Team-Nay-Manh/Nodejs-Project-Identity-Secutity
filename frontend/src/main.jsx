@@ -23,24 +23,22 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <QueryClientProvider client={queryClient}>
         <GlobalStyled>
           <BrowserRouter>
-            <>
-              <div>
-                <Routes>
-                  <Route element={<UserLayout />}>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/cart' element={<Cart />} />
-                    <Route path='/order' element={<PlaceOrder />} />
-                  </Route>
-                  <Route element={<AdminLayout />}>
-                    <Route path='/admin/home' element={<HomeAdmin />} />
-                    <Route path='/admin/users' />
-                    <Route path='/admin/orders' />
-                    <Route path='/admin/products' />
-                  </Route>
-                  <Route path='/login' element={<Login />} />
-                </Routes>
-              </div>
-            </>
+            <div>
+              <Routes>
+                <Route element={<UserLayout />}>
+                  <Route path='/' element={<Home />} />
+                  <Route path='/cart' element={<Cart />} />
+                  <Route path='/order' element={<PlaceOrder />} />
+                </Route>
+                <Route element={<AdminLayout />}>
+                  <Route path='/admin/home' element={<HomeAdmin />} />
+                  <Route path='/admin/users' />
+                  <Route path='/admin/orders' />
+                  <Route path='/admin/products' />
+                </Route>
+                <Route path='/login' element={<Login />} />
+              </Routes>
+            </div>
           </BrowserRouter>
           <Toaster
             position='top-center'
