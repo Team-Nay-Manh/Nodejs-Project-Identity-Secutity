@@ -14,6 +14,7 @@ import AdminLayout from "./pages/Admin/AdminLayout"
 import { default as HomeAdmin } from "./pages/Admin/home/Home"
 import "./index.css"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import LoginAdminPage from "./pages/Admin/login/Login.jsx"
 
 const queryClient = new QueryClient()
 
@@ -37,6 +38,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                   <Route path='/admin/products' />
                 </Route>
                 <Route path='/login' element={<Login />} />
+                <Route path='/admin/login' element={<LoginAdminPage />} />
               </Routes>
             </div>
           </BrowserRouter>

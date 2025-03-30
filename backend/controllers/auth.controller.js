@@ -79,4 +79,37 @@ export const signIn = async (req, res, next) => {
   }
 }
 
+export const signInAdmin = async (req, res, next) => {
+  try {
+    const { email, password } = req.body
+    const user = await User.findOne({ email })
+    if (!user) {
+      const error = new Error("User not found!!!")
+      error.status = 404
+      throw error
+    }
 
+    const isPasswordValid = await bcrypt.compare(password, user.password)
+    if (!isPasswordValid) {
+      const error = new Error("Invalid password")
+      error.status = 404
+      throw error
+    }
+
+    if (user.role !== "admin") {
+      res.status(404).json("Invalid")
+    }
+
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN
+    })
+
+    res.status(200).json({
+      success: true,
+      message: "User signed successfully",
+      data: { token, user }
+    })
+  } catch (error) {
+    next(error)
+  }
+}

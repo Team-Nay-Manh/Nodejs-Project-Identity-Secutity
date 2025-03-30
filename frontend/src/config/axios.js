@@ -22,8 +22,14 @@ apiRequest.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
+      const userRole = Cookies.get("role")
       Cookies.remove("token")
-      window.location.href = "/login" // Chuyển hướng về trang đăng nhập
+
+      if (userRole === "admin") {
+        window.location.href = "/admin/login"
+      } else {
+        window.location.href = "/login"
+      }
     }
     return Promise.reject(error)
   }

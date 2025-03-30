@@ -157,3 +157,14 @@
     display: none;
   }
 }
+
+.btn_logout {
+  width: max-content;
+  padding: 5px 7px;
+  border-radius: 5px;
+  background-color: red;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: 14px;
+}
