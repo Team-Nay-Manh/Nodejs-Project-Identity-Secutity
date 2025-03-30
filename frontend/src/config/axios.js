@@ -23,7 +23,7 @@ apiRequest.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      const token = Cookies.get("token")
+      const token = Cookies.get("token_identity")
       let userRole = null
 
       if (token) {
@@ -36,7 +36,7 @@ apiRequest.interceptors.response.use(
         }
       }
 
-      Cookies.remove("token")
+      Cookies.remove("token_identity")
 
       if (userRole === "admin") {
         window.location.href = "/admin/login"
