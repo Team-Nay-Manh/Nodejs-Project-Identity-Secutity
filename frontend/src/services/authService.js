@@ -12,7 +12,6 @@ export const login = async (crendentials, route) => {
       secure: true,
       sameSite: "Strict"
     })
-    Cookies.set("role", res.data.data.user.role, { expires: 1 })
     return res.data
   } catch (error) {
     throw new Error(error.message)
