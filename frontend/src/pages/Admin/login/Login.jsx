@@ -1,13 +1,8 @@
-import toast from "react-hot-toast"
-import { useNavigate } from "react-router-dom"
 import "./login.css"
 import { useLogin } from "./useLogin"
-import useAuthStore from "../../../utils/authStore"
 
 function LoginAdminPage() {
   const { login } = useLogin()
-  const { removeCurrentUser } = useAuthStore()
-  const navigate = useNavigate()
 
   const handleLogin = (e) => {
     e.preventDefault()

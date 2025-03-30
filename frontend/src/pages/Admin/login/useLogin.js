@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import useAuthStore from "../../../utils/authStore"
-import { loginAdmin } from "../../../services/authService"
+import { login as loginService } from "../../../services/authService"
 
 export function useLogin() {
   const navigate = useNavigate()
@@ -12,7 +12,7 @@ export function useLogin() {
     isLoading: isLoadingLogin,
     error: errorLogin
   } = useMutation({
-    mutationFn: (credentials) => loginAdmin(credentials),
+    mutationFn: (credentials) => loginService(credentials, "admin"),
     onSuccess: (data) => {
       console.log(data)
       if (data.data.user.role !== "admin") {
