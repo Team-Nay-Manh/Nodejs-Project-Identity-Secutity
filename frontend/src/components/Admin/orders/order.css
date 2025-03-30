@@ -33,11 +33,17 @@
   padding-bottom: 12px;
   font-size: 13px;
   text-align: left;
-  border-bottom: 1px solid var(--grey);
+  border-bottom: 1px solid black;
+  background-color: #fbdbdb;
 }
 
 .orders table td {
   padding: 16px 0;
+  font-size: 16px;
+}
+
+.order table tbody {
+  border: 1px solid black;
 }
 
 .orders table tr td:first-child {
@@ -46,7 +52,15 @@
   grid-gap: 12px;
   padding-left: 6px;
 }
-
+.orders table tbody tr:nth-child(odd) {
+  background-color: #dedcdc;
+  border-top: 1px solid black;
+}
+.orders table tbody tr:nth-child(even) {
+  background-color: #fbdbdb;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
 .orders table td img {
   width: 36px;
   height: 36px;
@@ -75,16 +89,187 @@
   background: var(--success);
 }
 
-.orders table tr td .status.process {
+.orders table tr td .status.processing {
   background: var(--primary);
 }
 
 .orders table tr td .status.pending {
   background: var(--warning);
 }
-
+.orders table tr td .status.shipped {
+  color: black;
+  background: var(--light-primary);
+}
+.orders table tr td .status.cancelled {
+  background: var(--danger);
+}
+.orders table tr td .status.delivered {
+  color: black;
+  background: var(--light-success);
+}
 @media screen and (max-width: 576px) {
   .orders table {
     min-width: 340px;
   }
+}
+.btn-go-back {
+  padding: 8px 15px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #e9e9e9;
+  display: inline-block;
+  font-size: 2rem;
+}
+.order-detail-page {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 20px auto; /* Center the component */
+  font-family: Arial, sans-serif;
+}
+
+.order-detail-page h2 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.order-detail-page h3 {
+  color: #333;
+  margin-bottom: 10px;
+  margin-top: 20px; /* Add space between sections */
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+.detail-section {
+  margin-bottom: 25px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.customer-info .customer-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.detail-profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.detail-section p {
+  margin: 5px 0;
+  line-height: 1.6;
+  color: #555;
+}
+
+.detail-section p strong {
+  color: #333;
+}
+
+/* Status indicator from index.css - adjust if needed */
+.order-detail-page .status {
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.9em;
+  font-weight: bold;
+  text-transform: capitalize; /* Ensure consistent casing */
+  color: #fff; /* Default text color */
+}
+
+.order-detail-page .status.completed,
+.order-detail-page .status.delivered {
+  background-color: #28a745; /* Green */
+}
+
+.order-detail-page .status.pending {
+  background-color: #ffc107; /* Yellow */
+  color: #333; /* Darker text for yellow */
+}
+
+.order-detail-page .status.processing,
+.order-detail-page .status.shipped {
+  background-color: #17a2b8; /* Blue/Teal */
+}
+
+.order-detail-page .status.cancelled {
+  background-color: #dc3545; /* Red */
+}
+/* End Status styles */
+
+.items-ordered table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.items-ordered th,
+.items-ordered td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.items-ordered th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.items-ordered td:nth-child(2), /* Quantity */
+.items-ordered td:nth-child(3), /* Unit Price */
+.items-ordered td:nth-child(4) {
+  /* Total Price */
+  text-align: right;
+}
+
+.totals {
+  text-align: right;
+}
+.totals p {
+  margin: 8px 0;
+}
+.totals p:last-child strong {
+  font-size: 1.1em;
+  color: #000;
+}
+
+.addresses {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* Responsive columns */
+  gap: 20px;
+}
+
+.address {
+  background-color: #fdfdfd;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.address h3 {
+  margin-top: 0;
+  font-size: 1.1em;
+  border-bottom: none;
+}
+
+.address p {
+  margin: 2px 0;
+  font-size: 0.95em;
 }

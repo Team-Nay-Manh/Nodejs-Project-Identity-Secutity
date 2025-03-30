@@ -515,7 +515,17 @@ body {
 .bottom-data .orders table tr td .status.pending {
   background: var(--warning);
 }
-
+.bottom-data .orders table tr td .status.cancelled {
+  background: var(--danger);
+}
+.bottom-data .orders table tr td .status.shipped {
+  color: black;
+  background: var(--light-primary);
+}
+.bottom-data .orders table tr td .status.delivered {
+  color: black;
+  background: var(--light-success);
+}
 .reminders {
   flex-grow: 1;
   flex-basis: 300px;

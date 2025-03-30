@@ -6,6 +6,8 @@ import PlaceOrder from "./pages/User/PlaceOrder/PlaceOrder"
 import UserLayout from "./pages/User/UserLayout"
 import AdminLayout from "./pages/Admin/AdminLayout"
 import { default as HomeAdmin } from "./pages/Admin/home/Home"
+import OrderPage from "./pages/Admin/orders/OrderPage"
+import OrderDetailsPage from "./pages/Admin/orders/OrderPage"
 
 function App() {
   return (
@@ -20,7 +22,8 @@ function App() {
           <Route element={<AdminLayout />}>
             <Route path='/admin/home' element={<HomeAdmin />} />
             <Route path='/admin/users' />
-            <Route path='/admin/orders' />
+            <Route path='/admin/orders' element={<OrderPage />}/>
+            <Route path="/admin/Orders/:orderId" element={<OrderDetailsPage />} />
             <Route path='/admin/products' />
           </Route>
           <Route path='/login' element={<Login />} />
