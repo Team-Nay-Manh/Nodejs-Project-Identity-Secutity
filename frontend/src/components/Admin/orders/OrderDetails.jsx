@@ -1,24 +1,61 @@
-import React from "react"
-import "./order.css"
+import { useEffect, useState } from "react";
+import apiRequest from "../../../config/axios"
 
 const OrderDetail = ({ order }) => {
+  const [products, setProducts] = useState([]); // State to store fetched products
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        // Không cần thêm apiUrl vì đã được cấu hình trong apiRequest
+        const response = await apiRequest.get('/api/v1/products/');
+        
+        // Kiểm tra response từ axios
+        if (!response.data.success) {
+          throw new Error("API response indicates failure");
+        }
+
+        // Kiểm tra cấu trúc dữ liệu
+        if (!Array.isArray(response.data.data?.products)) {
+          throw new Error("Invalid product data format");
+        }
+
+        setProducts(response.data.data.products);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+        setError(err.message || "Có lỗi xảy ra khi tải danh sách sản phẩm");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []); // Empty dependency array to fetch only once on mount
+
   if (!order) {
-    return <div className="order-detail-page">Order not found.</div>
+    return <div className="order-detail-page">Order not found.</div>;
   }
 
   // Helper to format currency
   const formatCurrency = (amount) => {
-    if (typeof amount !== "number") return "N/A"
-    return new Intl.NumberFormat("en-US", {
+    if (typeof amount !== "number") return "N/A";
+    return new Intl.NumberFormat("vi-VN", {
       style: "currency",
-      currency: "USD",
-    }).format(amount)
-  }
-  // Calculate subtotal from items (since it's not in the schema)
+      currency: "VND",
+    }).format(amount);
+  };
+
+  // Calculate subtotal from order.products
   const subtotal =
     order.products?.reduce((sum, item) => {
-      return sum + item.quantity * item.price
-    }, 0) ?? 0 // Use optional chaining and nullish coalescing for safety
+      return sum + item.quantity * item.price;
+    }, 0) ?? 0;
+
   return (
     <div className="order-detail-page">
       <h2>
@@ -31,39 +68,27 @@ const OrderDetail = ({ order }) => {
       <div className="detail-section customer-info">
         <h3>Customer Information</h3>
         <div className="customer-header">
-          {order.userImage && (
-            <img
-              src={order.userImage}
-              alt={order.userName}
-              className="detail-profile-img"
-            />
-          )}
           <p>
-            <strong>Name:</strong> {order.userName}
+            <strong>Name:</strong> {order.userId?.username || "N/A"}
           </p>
         </div>
         <p>
-          <strong>Email:</strong> {order.email || "N/A"}
+          <strong>Email:</strong> {order.userId?.email || "N/A"}
         </p>
         <p>
-          <strong>Phone:</strong> {order.phone || "N/A"}
+          <strong>Address:</strong> {order.userId?.address || "N/A"}
         </p>
-      </div>
-
-      <div className="detail-section order-summary">
-        <h3>Order Summary</h3>
         <p>
           <strong>Order Created Date:</strong> {order.createdAt}
         </p>
-        <p>
-          <strong>Payment Method:</strong> {order.paymentMethod || "N/A"}
-        </p>
       </div>
-
       <div className="detail-section items-ordered">
         <h3>Items Ordered</h3>
-        {/* Use products array */}
-        {order.products && order.products.length > 0 ? (
+        {loading ? (
+          <p>Loading products...</p>
+        ) : error ? (
+          <p>Error fetching products: {error}</p>
+        ) : order.products && order.products.length > 0 ? (
           <table>
             <thead>
               <tr>
@@ -74,21 +99,22 @@ const OrderDetail = ({ order }) => {
               </tr>
             </thead>
             <tbody>
-              {/* Map over products */}
-              {order.products.map((item, index) => (
-                // Use productId for key (or index if not guaranteed unique in order)
-                <tr key={item.productId || index}>
-                  <td>
-                    {/* Display productName if added to test data, else productId */}
-                    {item.productName || `Product ID: ${item.productId}`}
-                  </td>
-                  <td>{item.quantity}</td>
-                  <td>{formatCurrency(item.price)}</td>
-                  <td>{formatCurrency(item.quantity * item.price)}</td>
-                </tr>
-              ))}
+              {order.products.map((item, index) => {
+                // Find the matching product from the fetched products array
+                const product = products.find((p) => p._id === item.productId);
+                return (
+                  <tr key={item._id || index}>
+                    <td>
+                      {/* Display product name if available, otherwise fallback */}
+                      {product?.name || `Product ID: ${item.productId}`}
+                    </td>
+                    <td>{item.quantity}</td>
+                    <td>{formatCurrency(item.price)}</td>
+                    <td>{formatCurrency(item.quantity * item.price)}</td>
+                  </tr>
+                );
+              })}
             </tbody>
-            {/* Footer for Subtotal */}
             <tfoot>
               <tr>
                 <td
@@ -111,35 +137,12 @@ const OrderDetail = ({ order }) => {
       <div className="detail-section totals">
         <h3>Totals</h3>
         <p>
-          <strong>Subtotal:</strong> {formatCurrency(order.subtotal || 0)}
-        </p>
-        <p>
-          <strong>Shipping:</strong> {formatCurrency(order.shippingCost || 0)}
-        </p>
-        <p>
-          <strong>Tax:</strong> {formatCurrency(order.tax || 0)}
-        </p>
-        <p>
           <strong>Total Amount:</strong>{" "}
           <strong>{formatCurrency(order.totalAmount || 0)}</strong>
         </p>
       </div>
-
-      <div className="detail-section addresses">
-        {/* Use the single address field */}
-        <div className="address">
-          <h3>Address</h3>
-          {order.address ? (
-            // Split string into lines for better display, if desired
-            order.address.split(", ").map((part, i) => <p key={i}>{part}</p>)
-          ) : (
-            <p>N/A</p>
-          )}
-        </div>
-        {/* Billing Address section removed */}
-      </div>
     </div>
-  )
-}
+  );
+};
 
-export default OrderDetail
+export default OrderDetail;

@@ -179,3 +179,40 @@ export const getOrders = async (req, res) => {
       handleError(res, error);
     }
   };
+  /**
+  * Lấy chi tiết đơn hàng theo ID
+  * @param {Object} req - Request object
+  * @param {string} req.params.id - ID đơn hàng cần lấy
+  * @param {Object} res - Response object
+  */
+ export const getOrderById = async (req, res) => {
+   try {
+     const { id } = req.params;
+
+     if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new Error("Invalid Order ID format", { cause: HTTP_STATUS.BAD_REQUEST });
+     }
+
+     const order = await Order.findById(id)
+      .populate("userId", "username email address"); 
+ 
+
+     if (!order) {
+       throw new Error("Order not found", { cause: HTTP_STATUS.NOT_FOUND });
+     }
+
+     if (req.user.role !== "admin" && req.user._id.toString() !== order.userId._id.toString()) {
+
+        throw new Error("Forbidden: You are not authorized to view this order", { cause: HTTP_STATUS.FORBIDDEN });
+     }
+  
+     const returnData = new ReturnData();
+     returnData.success = true;
+     returnData.message = "Order details retrieved successfully";
+     returnData.data = order;
+     return res.status(HTTP_STATUS.OK).json(returnData.toObject());
+ 
+   } catch (error) {
+     handleError(res, error);
+   }
+ };

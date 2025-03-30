@@ -1,7 +1,7 @@
-import AllOrders from "../../../components/Admin/orders/AllOrders"
+import AllOrders from "../../../components/Admin/orders/AllOrders";
 
 const OrderPage = () => {
-  return <AllOrders />
-}
+  return <AllOrders />;
+};
 
-export default OrderPage
+export default OrderPage;
