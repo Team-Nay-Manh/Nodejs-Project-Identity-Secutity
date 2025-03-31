@@ -8,7 +8,7 @@ import Footer from "../../components/footer/Footer"
 
 function UserLayout() {
   const [showButtonScrollToTop, setShowButtonScrollToTop] = useState(false)
-  const { showLogin } = useContext(StoreContext)
+  const { showLogin, setShowLogin } = useContext(StoreContext)
 
   useEffect(() => {
     if (showLogin) {
@@ -32,10 +32,38 @@ function UserLayout() {
     }
   }
   return (
-    <div className='app'>
+    <div className="app">
       <Navbar />
       <Outlet />
       {showButtonScrollToTop && <ScrollToTop />}
+      {showLogin && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 1000,
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          }}
+        >
+          <LoginPopup />
+          <div
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              cursor: "pointer",
+              color: "white",
+              fontSize: "24px",
+            }}
+            onClick={() => setShowLogin(false)}
+          >
+            ✕
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   )
