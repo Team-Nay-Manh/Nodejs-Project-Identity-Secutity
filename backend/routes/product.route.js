@@ -1,20 +1,21 @@
 import { Router } from "express"
-import {
-  addProduct,
-  deleteProduct,
-  getProduct,
-  getProducts,
-  searchProduct,
-  updateProduct,
-} from "../controllers/product.controller.js"
+
 import upload from "../multer/handle-upload-img.js"
+import {
+  add,
+  get,
+  gets,
+  remove,
+  search,
+  update,
+} from "../controllers/product.controller.js"
 
 const productRouter = Router()
-productRouter.get("/search", searchProduct)
-productRouter.get("/", getProducts)
-productRouter.post("/add", upload.single("image"), addProduct)
-productRouter.get("/:productId", getProduct)
+productRouter.get("/search", search)
+productRouter.get("/", gets)
+productRouter.post("/add", upload.single("image"), add)
+productRouter.get("/:productId", get)
 
-productRouter.put("/:productId", upload.single("image"), updateProduct)
-productRouter.delete("/:productId", deleteProduct)
+productRouter.put("/:productId", upload.single("image"), update)
+productRouter.delete("/:productId", remove)
 export default productRouter
