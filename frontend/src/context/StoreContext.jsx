@@ -1,12 +1,29 @@
-import { createContext, useState } from "react"
+import { createContext, useState, useEffect } from "react"
 import PropTypes from "prop-types"
-import { food_list } from "../assets/assets"
+import { fetchCategories, fetchProducts } from "../services/productService"
 
 export const StoreContext = createContext()
 
 export const StoreContextProvider = ({ children }) => {
   const [cartItem, setCartItem] = useState({})
   const [showLogin, setShowLogin] = useState(false)
+  const [food_list, setFoodList] = useState([]) // Store products here
+  const [categories, setCategories] = useState([]) // Store categories here
+
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        const products = await fetchProducts()
+        setFoodList(products)
+
+        const categoriesData = await fetchCategories()
+        setCategories(categoriesData)
+      } catch (error) {
+        console.error("Failed to load initial data:", error)
+      }
+    }
+    loadInitialData()
+  }, [])
 
   const addToCart = (itemId) => {
     if (!cartItem[itemId]) {
@@ -57,6 +74,7 @@ export const StoreContextProvider = ({ children }) => {
 
   const contextValue = {
     food_list,
+    categories,
     cartItem,
     setCartItem,
     addToCart,
@@ -65,7 +83,7 @@ export const StoreContextProvider = ({ children }) => {
     getItemFromCart,
     btnPay,
     showLogin,
-    setShowLogin
+    setShowLogin,
   }
 
   return (
@@ -76,5 +94,5 @@ export const StoreContextProvider = ({ children }) => {
 }
 
 StoreContextProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
