@@ -21,7 +21,7 @@ const Orders = () => (
         {["Completed", "Pending", "Processing"].map((status, index) => (
           <tr key={index}>
             <td>
-              <img src='images/profile-1.jpg' alt='profile' />
+              <img src='/noAvatar.png' alt='profile' />
               <p>John Doe</p>
             </td>
             <td>14-08-2023</td>

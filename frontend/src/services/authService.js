@@ -1,9 +1,12 @@
 import apiRequest from "../config/axios"
 import Cookies from "js-cookie"
 
-export const login = async (crendentials) => {
+export const login = async (crendentials, route) => {
   try {
-    const res = await apiRequest.post("/api/v1/auth/sign-in", crendentials)
+    const res = await apiRequest.post(
+      `/api/v1/auth${route ? "/admin" : ""}/sign-in`,
+      crendentials
+    )
     Cookies.set("token_identity", res.data.data.token, {
       expires: import.meta.env.JWT_EXPIRES_IN,
       secure: true,

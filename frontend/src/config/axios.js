@@ -1,5 +1,6 @@
 import axios from "axios"
 import Cookies from "js-cookie"
+import { jwtDecode } from "jwt-decode"
 
 const apiRequest = axios.create({
   baseURL: import.meta.env.VITE_API_ENDPOINT,
@@ -22,8 +23,26 @@ apiRequest.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      Cookies.remove("token")
-      window.location.href = "/login" // Chuyển hướng về trang đăng nhập
+      const token = Cookies.get("token_identity")
+      let userRole = null
+
+      if (token) {
+        try {
+          const decoded = jwtDecode(token)
+          userRole = decoded.role
+          console.log(userRole)
+        } catch (e) {
+          console.error("Invalid token", e)
+        }
+      }
+
+      Cookies.remove("token_identity")
+
+      if (userRole === "admin") {
+        window.location.href = "/admin/login"
+      } else {
+        window.location.href = "/login"
+      }
     }
     return Promise.reject(error)
   }
