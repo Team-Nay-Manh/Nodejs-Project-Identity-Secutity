@@ -8,9 +8,9 @@ export function useLogin() {
   const navigate = useNavigate()
   const { setCurrentUser } = useAuthStore()
   const {
-    mutate: login,
+    mutate: loginMutation,
     isLoading: isLoadingLogin,
-    error: errorLogin
+    error: errorLogin,
   } = useMutation({
     mutationFn: (credentials) => loginService(credentials),
     onSuccess: (data) => {
@@ -18,8 +18,18 @@ export function useLogin() {
       setCurrentUser(data.data.user)
       navigate("/")
     },
-    onError: () => toast.error("Login failed!!!")
+    onError: () => toast.error("Login failed!!!"),
   })
+
+  const login = (credentials, options = {}) => {
+    return loginMutation(credentials, {
+      onSuccess: (data) => {
+        if (options && options.onSuccess) {
+          options.onSuccess(data)
+        }
+      },
+    })
+  }
 
   return { login, isLoadingLogin, errorLogin }
 }

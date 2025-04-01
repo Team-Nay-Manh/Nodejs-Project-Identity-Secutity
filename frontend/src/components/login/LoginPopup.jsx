@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import styles from "./LoginPopup.module.scss"
 import classNames from "classnames/bind"
 import { useLogin } from "../../pages/User/Login/useLogin"
 import { useRegister } from "../../pages/User/Login/useRegister"
+import { StoreContext } from "../../context/StoreContext"
 
 const cx = classNames.bind(styles)
 
@@ -10,6 +11,7 @@ function LoginPopup() {
   const [currState, setCurrState] = useState("Login")
   const { login, isLoadingLogin, errorLogin } = useLogin()
   const { register, isLoadingRegister, errorRegister } = useRegister()
+  const { setShowLogin } = useContext(StoreContext)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -17,8 +19,16 @@ function LoginPopup() {
     const data = Object.fromEntries(formData)
 
     console.log(data)
-    currState === "Login" ? login(data) : register(data)
-    currState === "Sign up" && setCurrState("Login")
+    if (currState === "Login") {
+      login(data, {
+        onSuccess: () => {
+          setShowLogin(false)
+        },
+      })
+    } else {
+      register(data)
+      setCurrState("Login")
+    }
   }
 
   return (
@@ -30,17 +40,17 @@ function LoginPopup() {
         <div className={cx("login-container-inputs")}>
           {currState !== "Login" && (
             <input
-              type='text'
-              placeholder='Your Name'
-              name='username'
+              type="text"
+              placeholder="Your Name"
+              name="username"
               required
             />
           )}
-          <input type='email' name='email' placeholder='Your Email' required />
+          <input type="email" name="email" placeholder="Your Email" required />
           <input
-            type='password'
-            name='password'
-            placeholder='Passsword'
+            type="password"
+            name="password"
+            placeholder="Passsword"
             required
           />
         </div>
