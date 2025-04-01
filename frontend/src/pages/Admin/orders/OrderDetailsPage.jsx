@@ -14,18 +14,15 @@ const OrderDetailPage = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       setLoading(true);
-      setError(null); // Xóa các lỗi trước đó
+      setError(null); 
 
       try {
-        // Sử dụng apiRequest thay vì fetch
         const response = await apiRequest.get(`/api/v1/order/${orderId}`);
         
-        // Kiểm tra dữ liệu trả về
         if (!response.data.success) {
           throw new Error("API response indicates failure");
         }
 
-        // Đảm bảo trường data tồn tại và chứa thông tin đơn hàng
         if (!response.data.data) {
           throw new Error("Order data not found in API response");
         }

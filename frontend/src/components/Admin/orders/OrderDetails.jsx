@@ -12,15 +12,12 @@ const OrderDetail = ({ order }) => {
       setError(null);
 
       try {
-        // Không cần thêm apiUrl vì đã được cấu hình trong apiRequest
         const response = await apiRequest.get('/api/v1/products/');
         
-        // Kiểm tra response từ axios
         if (!response.data.success) {
           throw new Error("API response indicates failure");
         }
 
-        // Kiểm tra cấu trúc dữ liệu
         if (!Array.isArray(response.data.data?.products)) {
           throw new Error("Invalid product data format");
         }
@@ -35,7 +32,7 @@ const OrderDetail = ({ order }) => {
     };
 
     fetchProducts();
-  }, []); // Empty dependency array to fetch only once on mount
+  }, []); 
 
   if (!order) {
     return <div className="order-detail-page">Order not found.</div>;

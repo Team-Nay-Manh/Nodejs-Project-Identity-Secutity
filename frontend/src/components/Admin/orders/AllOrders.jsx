@@ -28,8 +28,7 @@ const AllOrders = () => {
           throw new Error("API response indicates failure");
         }
   
-        // Không cần gọi response.json() với axios
-        // response.data đã là dữ liệu đã được parse
+        
         setOrders(response.data.data);
       } catch (err) {
         console.error("Failed to fetch orders:", err);

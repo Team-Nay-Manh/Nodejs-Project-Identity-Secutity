@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
 
 const apiRequest = axios.create({
   baseURL: import.meta.env.VITE_API_ENDPOINT,
