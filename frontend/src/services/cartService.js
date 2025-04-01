@@ -13,6 +13,18 @@ export const fetchCart = async (userId) => {
   }
 }
 
+export const createEmptyCart = async (userId) => {
+  try {
+    const response = await apiRequest.post(`/api/v1/cart`, {
+      userId,
+    })
+    return response.data
+  } catch (error) {
+    console.error("Error creating empty cart:", error)
+    return { success: false }
+  }
+}
+
 export const addProduct = async (userId, productId, quantity = 1) => {
   try {
     const response = await apiRequest.post(`/api/v1/cart/${userId}/products`, {
