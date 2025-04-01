@@ -4,6 +4,7 @@ import {
   getOrders,
   updateOrderStatus,
   deleteOrder,
+  getOrderById,
 } from "../controllers/order.controller.js"
 import { authorize } from "../middlewares/auth.middlewares.js"
 
@@ -23,6 +24,10 @@ orderRouter.post("/", authorize, createOrder)
  * @access Private
  */
 orderRouter.get("/", authorize, getOrders)
+
+
+orderRouter.get("/:id",authorize,getOrderById)
+
 
 /**
  * @route PUT /api/orders/:id/status

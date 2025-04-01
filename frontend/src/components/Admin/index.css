@@ -427,9 +427,6 @@ body {
   width: 100%;
   color: var(--dark);
 }
-.bottom-data .orders table tr td .status.process {
-  background: var(--primary);
-}
 
 .bottom-data > div {
   border-radius: 20px;
@@ -464,6 +461,9 @@ body {
   width: 100%;
   border-collapse: collapse;
 }
+.bottom-data .orders table thead {
+  border-bottom: 2px solid black;
+}
 
 .bottom-data .orders table th {
   padding-bottom: 12px;
@@ -474,6 +474,7 @@ body {
 
 .bottom-data .orders table td {
   padding: 16px 0;
+  font-size: 16px;
 }
 
 .bottom-data .orders table tr td:first-child {
@@ -518,7 +519,17 @@ body {
 .bottom-data .orders table tr td .status.pending {
   background: var(--warning);
 }
-
+.bottom-data .orders table tr td .status.cancelled {
+  background: var(--danger);
+}
+.bottom-data .orders table tr td .status.shipped {
+  color: black;
+  background: var(--light-primary);
+}
+.bottom-data .orders table tr td .status.delivered {
+  color: black;
+  background: var(--light-success);
+}
 .reminders {
   flex-grow: 1;
   flex-basis: 300px;

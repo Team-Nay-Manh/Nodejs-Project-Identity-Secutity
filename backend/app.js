@@ -27,7 +27,7 @@ app.use("/api/v1/categories", categoryRouter)
 app.use(errormiddlewares)
 
 app.listen(PORT, async () => {
-  console.log(`Server i running on http://localhost:${PORT}`)
+  console.log(`Server is running on http://localhost:${PORT}`)
   await connectToDatabase()
 })
 

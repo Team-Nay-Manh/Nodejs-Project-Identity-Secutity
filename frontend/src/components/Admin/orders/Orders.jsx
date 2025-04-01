@@ -1,6 +1,6 @@
 import React from "react"
 import "../index.css"
-
+import "./order.css"
 const Orders = () => (
   <div className='orders'>
     <div className='header'>
