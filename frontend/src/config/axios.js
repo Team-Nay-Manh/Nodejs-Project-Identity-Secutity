@@ -3,7 +3,7 @@ import Cookies from "js-cookie"
 
 const apiRequest = axios.create({
   baseURL: import.meta.env.VITE_API_ENDPOINT,
-  withCredentials: true
+  withCredentials: true,
 })
 
 // Thêm token vào headers trước mỗi request
@@ -22,8 +22,11 @@ apiRequest.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      Cookies.remove("token")
-      window.location.href = "/login" // Chuyển hướng về trang đăng nhập
+      Cookies.remove("token_identity")
+
+      if (!window.location.pathname.includes("/login")) {
+        window.location.href = "/login"
+      }
     }
     return Promise.reject(error)
   }
