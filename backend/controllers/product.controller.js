@@ -3,10 +3,11 @@ import ReturnData from "../models/returnData.model.js"
 import HTTP_STATUS from "../config/http-status.js"
 import handleError from "../config/error-handler.js"
 import mongoose from "mongoose"
+import { DEFAULT_LIMIT } from "../config/constants.js"
 
-export const getProducts = async (req, res, next) => {
+export const gets = async (req, res, next) => {
   try {
-    let { next_cursor, limit = 10 } = req.query
+    let { next_cursor, limit = DEFAULT_LIMIT } = req.query
     limit = parseInt(limit)
 
     if (limit < 1) {
@@ -16,18 +17,15 @@ export const getProducts = async (req, res, next) => {
       })
     }
 
-    // Điều kiện truy vấn
     const queryCondition = {}
     if (next_cursor) {
-      queryCondition._id = { $gt: next_cursor } // Lấy các sản phẩm có _id lớn hơn next_cursor
+      queryCondition._id = { $gt: next_cursor }
     }
 
-    // Truy vấn sản phẩm, lấy thêm 1 để xác định next_cursor
     const products = await Product.find(queryCondition)
       .populate("category", "name")
-      .sort({ _id: 1 }) // Sắp xếp tăng dần theo _id
-      .limit(limit + 1) // Lấy thêm 1 sản phẩm để kiểm tra next_cursor mới
-
+      .sort({ _id: 1 })
+      .limit(limit + 1)
     if (products.length === 0) {
       return res.status(HTTP_STATUS.NOT_FOUND).json({
         success: false,
@@ -35,11 +33,9 @@ export const getProducts = async (req, res, next) => {
       })
     }
 
-    // Xác định con trỏ mới (next_cursor)
     const hasNextPage = products.length > limit
     const newCursor = hasNextPage ? products[limit]._id : null
 
-    // Cắt danh sách về đúng giới hạn
     if (hasNextPage) {
       products.pop()
     }
@@ -62,7 +58,7 @@ export const getProducts = async (req, res, next) => {
   }
 }
 
-export const getProduct = async (req, res, next) => {
+export const get = async (req, res, next) => {
   try {
     const { productId } = req.params
     const product = await Product.findOne({ _id: productId }).populate(
@@ -83,7 +79,7 @@ export const getProduct = async (req, res, next) => {
   }
 }
 
-export const addProduct = async (req, res, next) => {
+export const add = async (req, res, next) => {
   try {
     const { name, description, price, category } = req.body
     if (!name || !price || !category) {
@@ -116,7 +112,7 @@ export const addProduct = async (req, res, next) => {
   }
 }
 
-export const updateProduct = async (req, res, next) => {
+export const update = async (req, res, next) => {
   try {
     const { productId } = req.params
     const { name, description, price, category } = req.body
@@ -148,7 +144,7 @@ export const updateProduct = async (req, res, next) => {
   }
 }
 
-export const deleteProduct = async (req, res, next) => {
+export const remove = async (req, res, next) => {
   try {
     const { productId } = req.params
     const product = await Product.findOne({ _id: productId })
@@ -167,9 +163,9 @@ export const deleteProduct = async (req, res, next) => {
   }
 }
 
-export const searchProduct = async (req, res, next) => {
+export const search = async (req, res, next) => {
   try {
-    let { query, next_cursor, limit = 10 } = req.query
+    let { query, next_cursor, limit = DEFAULT_LIMIT } = req.query
 
     if (!query) {
       return getProducts(req, res, next)
@@ -193,26 +189,22 @@ export const searchProduct = async (req, res, next) => {
     if (mongoose.Types.ObjectId.isValid(query)) {
       searchCondition.$or.push({ category: query })
     }
-    // Nếu có `next_cursor`, lọc chỉ lấy sản phẩm có `_id > next_cursor`
     if (next_cursor) {
       searchCondition._id = { $gt: next_cursor }
     }
 
-    // Truy vấn với giới hạn `limit + 1` để kiểm tra `next_cursor` mới
     const products = await Product.find(searchCondition)
       .populate("category", "name")
-      .sort({ _id: 1 }) // Sắp xếp tăng dần để lấy dữ liệu mới hơn
-      .limit(limit + 1) // Lấy thêm 1 sản phẩm để xác định con trỏ tiếp theo
+      .sort({ _id: 1 })
+      .limit(limit + 1)
 
     if (products.length === 0) {
       return handleError(res, "No products found", HTTP_STATUS.NOT_FOUND)
     }
 
-    // Xác định con trỏ mới
     const hasNextPage = products.length > limit
     const newCursor = hasNextPage ? products[limit]._id : null
 
-    // Giới hạn lại số lượng sản phẩm trả về
     if (hasNextPage) {
       products.pop()
     }
