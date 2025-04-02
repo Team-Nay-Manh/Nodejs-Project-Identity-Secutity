@@ -154,3 +154,206 @@
     }
   }
 }
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .search-icon {
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 1.4rem;
+      width: 18rem;
+      margin-right: 0.5rem;
+
+      &::placeholder {
+        color: #999;
+      }
+
+      @media (max-width: 900px) {
+        width: 15rem;
+        font-size: 1.3rem;
+      }
+
+      @media (max-width: 750px) {
+        width: 12rem;
+      }
+    }
+  }
+
+  .search-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 35rem;
+    max-height: 40rem;
+    overflow-y: auto;
+    background: white;
+    border-radius: 0.8rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    margin-top: 1rem;
+
+    @media (max-width: 900px) {
+      width: 30rem;
+    }
+
+    @media (max-width: 750px) {
+      width: 28rem;
+      right: -5rem;
+    }
+
+    .loading,
+    .no-results {
+      padding: 2.5rem;
+      text-align: center;
+    }
+
+    .loading {
+      font-size: 1.4rem;
+      color: #666;
+    }
+
+    .no-results {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .no-results-icon {
+        width: 4rem !important;
+        height: 4rem !important;
+        opacity: 0.6;
+        margin-bottom: 1rem;
+      }
+
+      .no-results-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #333;
+        margin: 0 0 0.5rem 0;
+      }
+
+      .no-results-message {
+        font-size: 1.3rem;
+        color: #666;
+        margin: 0;
+        line-height: 1.4;
+      }
+    }
+
+    .search-results {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      .search-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: #f9f9f9;
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .product-info {
+          display: flex;
+          align-items: center;
+          flex: 1;
+
+          .product-image {
+            width: 7rem;
+            height: 7rem;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-right: 1.5rem;
+          }
+
+          .product-details {
+            h3 {
+              font-size: 1.6rem;
+              margin: 0 0 0.4rem 0;
+              font-weight: 600;
+            }
+
+            .product-category {
+              font-size: 1.3rem;
+              color: #666;
+              margin: 0 0 0.4rem 0;
+            }
+
+            .product-price {
+              font-size: 1.5rem;
+              font-weight: 600;
+              color: tomato;
+              margin: 0;
+            }
+          }
+        }
+
+        .product-controls {
+          display: flex;
+          align-items: center;
+
+          .add-icon {
+            width: 3rem;
+            height: 3rem;
+            cursor: pointer;
+            border-radius: 50%;
+            padding: 0.5rem;
+            box-sizing: content-box;
+          }
+
+          .quantity-counter {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem;
+            border-radius: 5rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+            img {
+              width: 2.5rem;
+              height: 2.5rem;
+              cursor: pointer;
+            }
+
+            p {
+              font-size: 1.3rem;
+              font-weight: 500;
+              margin: 0;
+              min-width: 1.2rem;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
+}

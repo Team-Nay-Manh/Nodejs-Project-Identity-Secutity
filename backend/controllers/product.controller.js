@@ -199,7 +199,18 @@ export const search = async (req, res, next) => {
       .limit(limit + 1)
 
     if (products.length === 0) {
-      return handleError(res, "No products found", HTTP_STATUS.NOT_FOUND)
+      const returnData = new ReturnData()
+      returnData.success = true
+      returnData.message = "No products found"
+      returnData.data = {
+        products: [],
+        pagination: {
+          next_cursor: null,
+          limit,
+          hasNextPage: false,
+        },
+      }
+      return res.status(HTTP_STATUS.OK).json(returnData.toObject())
     }
 
     const hasNextPage = products.length > limit
