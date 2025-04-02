@@ -8,6 +8,7 @@ import AdminLayout from "./pages/Admin/AdminLayout"
 import { default as HomeAdmin } from "./pages/Admin/home/Home"
 import OrderPage from "./pages/Admin/orders/OrderPage"
 import OrderDetailsPage from "./pages/Admin/orders/OrderPage"
+import ProductPage from "./pages/Admin/products/ProductPage"
 
 function App() {
   return (
@@ -15,18 +16,21 @@ function App() {
       <div>
         <Routes>
           <Route element={<UserLayout />}>
-            <Route path='/' element={<Home />} />
-            <Route path='/cart' element={<Cart />} />
-            <Route path='/order' element={<PlaceOrder />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/order" element={<PlaceOrder />} />
           </Route>
           <Route element={<AdminLayout />}>
-            <Route path='/admin/home' element={<HomeAdmin />} />
-            <Route path='/admin/users' />
-            <Route path='/admin/orders' element={<OrderPage />}/>
-            <Route path="/admin/Orders/:orderId" element={<OrderDetailsPage />} />
-            <Route path='/admin/products' />
+            <Route path="/admin/home" element={<HomeAdmin />} />
+            <Route path="/admin/users" />
+            <Route path="/admin/orders" element={<OrderPage />} />
+            <Route
+              path="/admin/Orders/:orderId"
+              element={<OrderDetailsPage />}
+            />
+            <Route path="/admin/products" element={<ProductPage />} />
           </Route>
-          <Route path='/login' element={<Login />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </>
