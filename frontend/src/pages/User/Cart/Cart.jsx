@@ -11,7 +11,7 @@ function Cart() {
     useContext(StoreContext)
 
   const navigate = useNavigate()
-  let feeDelivery = getTotalAmount() === 0 ? 0 : 2
+  let feeDelivery = getTotalAmount() === 0 ? 0 : 30000
 
   return (
     <div className={cx("cart")}>
@@ -32,11 +32,11 @@ function Cart() {
             return (
               <div key={index}>
                 <div className={cx("cart-items-title", "cart-items-item")}>
-                  <img src={food.image} alt='Food' />
+                  <img src={food.image} alt="Food" />
                   <p>{food.name}</p>
-                  <p>${food.price}</p>
+                  <p>{food.price}₫</p>
                   <p>{cartItem[food._id]}</p>
-                  <p>${food.price * cartItem[food._id]}</p>
+                  <p>{food.price * cartItem[food._id]}₫</p>
                   <p
                     onClick={() => removeFromCart(food._id)}
                     className={cx("remove")}
@@ -57,17 +57,17 @@ function Cart() {
           <div>
             <div className={cx("cart-total-details")}>
               <p>Subtoal</p>
-              <p>${getTotalAmount()}</p>
+              <p>{getTotalAmount()}₫</p>
             </div>
             <hr />
             <div className={cx("cart-total-details")}>
               <p>Delivery Fee</p>
-              <p>${feeDelivery}</p>
+              <p>{feeDelivery}₫</p>
             </div>
             <hr />
             <div className={cx("cart-total-details")}>
               <b>Total</b>
-              <b>${getTotalAmount() + feeDelivery}</b>
+              <b>{getTotalAmount() + feeDelivery}₫</b>
             </div>
             <button onClick={() => navigate("/order")}>
               proceed to checkout
@@ -78,7 +78,7 @@ function Cart() {
           <div>
             <p>If you have a promo code, Enter it here</p>
             <div className={cx("cart-promocode-input")}>
-              <input type='text' placeholder='PromoCode' />
+              <input type="text" placeholder="PromoCode" />
               <button>Submit</button>
             </div>
           </div>

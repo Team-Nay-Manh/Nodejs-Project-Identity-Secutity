@@ -2,11 +2,11 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 
-const ProductTable = ({ products, onDelete }) => {
+const ProductTable = ({ products, onDelete, onEdit }) => {
   const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat("vi-VN", {
       style: "currency",
-      currency: "USD",
+      currency: "VND",
     }).format(price)
   }
 
@@ -57,7 +57,11 @@ const ProductTable = ({ products, onDelete }) => {
                 <td>{product.category?.name || "No Category"}</td>
                 <td className="product-price">{formatPrice(product.price)}</td>
                 <td className="product-actions">
-                  <button className="edit-btn" title="Edit">
+                  <button
+                    className="edit-btn"
+                    title="Edit"
+                    onClick={() => onEdit(product)}
+                  >
                     <i className="bx bx-edit"></i>
                   </button>
                   <button
@@ -80,6 +84,7 @@ const ProductTable = ({ products, onDelete }) => {
 ProductTable.propTypes = {
   products: PropTypes.array.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 }
 
 export default ProductTable

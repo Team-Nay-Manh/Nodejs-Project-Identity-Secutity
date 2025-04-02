@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react"
 import ProductTable from "./ProductTable"
 import "./product.css"
-import apiRequest from "../../../config/axios"
 import {
   fetchProducts,
   fetchCategories,
+  addProduct,
+  updateProduct,
+  deleteProduct,
 } from "../../../services/productService"
 import { Link } from "react-router-dom"
 import toast from "react-hot-toast"
+import Modal from "./Modal"
+import ProductForm from "./ProductForm"
 
 const AllProducts = () => {
   const [products, setProducts] = useState([])
@@ -18,7 +22,10 @@ const AllProducts = () => {
   const [selectedCategory, setSelectedCategory] = useState("")
   const [filteredProducts, setFilteredProducts] = useState([])
 
-  // Pagination states
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalMode, setModalMode] = useState("add")
+  const [selectedProduct, setSelectedProduct] = useState(null)
+
   const [currentPage, setCurrentPage] = useState(1)
   const [productsPerPage] = useState(6)
   const [paginatedProducts, setPaginatedProducts] = useState([])
@@ -51,7 +58,6 @@ const AllProducts = () => {
   }, [])
 
   useEffect(() => {
-    // Filter products based on search and category
     let result = [...products]
 
     if (searchTerm) {
@@ -69,16 +75,14 @@ const AllProducts = () => {
     }
 
     setFilteredProducts(result)
-    setCurrentPage(1) // Reset to first page when filters change
+    setCurrentPage(1)
   }, [searchTerm, selectedCategory, products])
 
-  // Handle pagination
   useEffect(() => {
     const totalItems = filteredProducts.length
     const totalPages = Math.ceil(totalItems / productsPerPage)
     setTotalPages(totalPages)
 
-    // Calculate the products to display on current page
     const indexOfLastProduct = currentPage * productsPerPage
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage
     const currentProducts = filteredProducts.slice(
@@ -92,23 +96,60 @@ const AllProducts = () => {
   const handleDeleteProduct = async (productId) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        const response = await apiRequest.delete(
-          `/api/v1/products/${productId}`
-        )
-        if (response.data.success) {
+        const response = await deleteProduct(productId)
+        if (response.success) {
           setProducts(products.filter((product) => product._id !== productId))
           toast.success("Product deleted successfully")
         }
       } catch (error) {
         console.error("Error deleting product:", error)
-        toast.error("Unable to delete product")
+        toast.error("Unable to delete product. Make sure you have permission.")
       }
     }
   }
 
   const handleAddProduct = () => {
-    // We'll implement this functionality later
-    toast.success("Add product feature will be developed later")
+    setModalMode("add")
+    setSelectedProduct(null)
+    setIsModalOpen(true)
+  }
+
+  const handleEditProduct = (product) => {
+    setModalMode("edit")
+    setSelectedProduct(product)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setSelectedProduct(null)
+  }
+
+  const handleFormSubmit = async (formData) => {
+    try {
+      if (modalMode === "add") {
+        const newProduct = await addProduct(formData)
+        setProducts([...products, newProduct])
+        toast.success("Product added successfully")
+      } else {
+        const updatedProduct = await updateProduct(
+          selectedProduct._id,
+          formData
+        )
+        setProducts(
+          products.map((product) =>
+            product._id === updatedProduct._id ? updatedProduct : product
+          )
+        )
+        toast.success("Product updated successfully")
+      }
+      handleCloseModal()
+    } catch (error) {
+      console.error("Error submitting product:", error)
+      toast.error(
+        `Unable to ${modalMode} product. Make sure you have permission.`
+      )
+    }
   }
 
   const handlePageChange = (pageNumber) => {
@@ -261,9 +302,21 @@ const AllProducts = () => {
           <ProductTable
             products={paginatedProducts}
             onDelete={handleDeleteProduct}
+            onEdit={handleEditProduct}
           />
           {renderPagination()}
         </>
+      )}
+
+      {isModalOpen && (
+        <Modal onClose={handleCloseModal}>
+          <ProductForm
+            product={selectedProduct}
+            onSubmit={handleFormSubmit}
+            onCancel={handleCloseModal}
+            formType={modalMode}
+          />
+        </Modal>
       )}
     </div>
   )

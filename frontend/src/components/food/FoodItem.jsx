@@ -1,14 +1,14 @@
-import styles from "./FoodList.module.scss";
-import classNames from "classnames/bind";
-import PropTypes from "prop-types";
-import { assets } from "../../assets/assets";
-import { useContext } from "react";
-import { StoreContext } from "../../context/StoreContext";
+import styles from "./FoodList.module.scss"
+import classNames from "classnames/bind"
+import PropTypes from "prop-types"
+import { assets } from "../../assets/assets"
+import { useContext } from "react"
+import { StoreContext } from "../../context/StoreContext"
 
-const cx = classNames.bind(styles);
+const cx = classNames.bind(styles)
 
 function FoodItem({ id, name, price, description, image }) {
-  const { cartItem, addToCart, removeFromCart } = useContext(StoreContext);
+  const { cartItem, addToCart, removeFromCart } = useContext(StoreContext)
 
   return (
     <div className={cx("food-item")}>
@@ -37,13 +37,13 @@ function FoodItem({ id, name, price, description, image }) {
           <img src={assets.rating_starts} alt="" />
         </div>
         <p className={cx("food-item-info-des")}>{description}</p>
-        <p className={cx("food-item-info-price")}>${price}</p>
+        <p className={cx("food-item-info-price")}>{price} ₫</p>
       </div>
     </div>
-  );
+  )
 }
 
-export default FoodItem;
+export default FoodItem
 
 FoodItem.propTypes = {
   id: PropTypes.string,
@@ -51,4 +51,4 @@ FoodItem.propTypes = {
   price: PropTypes.number,
   description: PropTypes.string,
   image: PropTypes.string,
-};
+}
