@@ -20,3 +20,15 @@ export const fetchCategories = async () => {
     throw error
   }
 }
+
+export const searchProducts = async (query) => {
+  try {
+    const response = await apiRequest.get(
+      `/api/v1/products/search?query=${encodeURIComponent(query)}`
+    )
+    return response.data.data.products
+  } catch (error) {
+    console.error("Error searching products:", error)
+    throw error
+  }
+}
