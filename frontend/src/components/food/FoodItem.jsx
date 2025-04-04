@@ -37,7 +37,7 @@ function FoodItem({ id, name, price, description, image }) {
           <img src={assets.rating_starts} alt="" />
         </div>
         <p className={cx("food-item-info-des")}>{description}</p>
-        <p className={cx("food-item-info-price")}>{price} ₫</p>
+        <p className={cx("food-item-info-price")}>{price.toLocaleString('vi-VN')} ₫</p>
       </div>
     </div>
   )

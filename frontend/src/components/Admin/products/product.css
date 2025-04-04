@@ -47,14 +47,18 @@
 .search-container {
   position: relative;
   width: 280px;
+  display: flex;
+  align-items: center;
+  background-color: var(--grey);
+  border-radius: 36px;
+  padding: 0 16px;
 }
 
 .search-input {
   width: 100%;
-  padding: 10px 16px 10px 40px;
-  border-radius: 36px;
-  border: 1px solid var(--grey);
-  background-color: var(--grey);
+  padding: 10px 10px 10px 10px;
+  border: none;
+  background-color: transparent;
   color: var(--dark);
   font-size: 14px;
   transition: all 0.3s ease;
@@ -62,30 +66,29 @@
 
 .search-input:focus {
   outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
 }
 
 .search-container i {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
   color: var(--dark-grey);
   font-size: 16px;
+  margin-right: 8px;
 }
 
 .filter-container {
   position: relative;
   width: 200px;
+  display: flex;
+  align-items: center;
+  background-color: var(--grey);
+  border-radius: 36px;
+  padding: 0 16px;
 }
 
 .category-filter {
   width: 100%;
-  padding: 10px 16px 10px 40px;
-  border-radius: 36px;
-  border: 1px solid var(--grey);
-  background-color: var(--grey);
+  padding: 10px 10px 10px 10px;
+  border: none;
+  background-color: transparent;
   color: var(--dark);
   font-size: 14px;
   appearance: none;
@@ -95,18 +98,12 @@
 
 .category-filter:focus {
   outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
 }
 
 .filter-container i {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
   color: var(--dark-grey);
   font-size: 16px;
-  pointer-events: none;
+  margin-right: 8px;
 }
 
 /* Add Product Button */

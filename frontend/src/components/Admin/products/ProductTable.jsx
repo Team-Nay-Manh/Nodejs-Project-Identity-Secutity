@@ -7,6 +7,7 @@ const ProductTable = ({ products, onDelete, onEdit }) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
+      currencyDisplay: "symbol"
     }).format(price)
   }
 

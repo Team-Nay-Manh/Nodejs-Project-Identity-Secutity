@@ -34,9 +34,9 @@ function Cart() {
                 <div className={cx("cart-items-title", "cart-items-item")}>
                   <img src={food.image} alt="Food" />
                   <p>{food.name}</p>
-                  <p>{food.price}₫</p>
+                  <p>{food.price.toLocaleString('vi-VN')}₫</p>
                   <p>{cartItem[food._id]}</p>
-                  <p>{food.price * cartItem[food._id]}₫</p>
+                  <p>{(food.price * cartItem[food._id]).toLocaleString('vi-VN')}₫</p>
                   <p
                     onClick={() => removeFromCart(food._id)}
                     className={cx("remove")}
@@ -57,17 +57,17 @@ function Cart() {
           <div>
             <div className={cx("cart-total-details")}>
               <p>Subtoal</p>
-              <p>{getTotalAmount()}₫</p>
+              <p>{getTotalAmount().toLocaleString('vi-VN')}₫</p>
             </div>
             <hr />
             <div className={cx("cart-total-details")}>
               <p>Delivery Fee</p>
-              <p>{feeDelivery}₫</p>
+              <p>{feeDelivery.toLocaleString('vi-VN')}₫</p>
             </div>
             <hr />
             <div className={cx("cart-total-details")}>
               <b>Total</b>
-              <b>{getTotalAmount() + feeDelivery}₫</b>
+              <b>{(getTotalAmount() + feeDelivery).toLocaleString('vi-VN')}₫</b>
             </div>
             <button onClick={() => navigate("/order")}>
               proceed to checkout

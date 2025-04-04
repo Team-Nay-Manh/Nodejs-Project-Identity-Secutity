@@ -255,6 +255,7 @@ const AllProducts = () => {
         </div>
         <div className="header-actions">
           <div className="search-container">
+            <i className="bx bx-search"></i>
             <input
               type="text"
               placeholder="Search products..."
@@ -262,10 +263,10 @@ const AllProducts = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
             />
-            <i className="bx bx-search"></i>
           </div>
 
           <div className="filter-container">
+            <i className="bx bx-filter"></i>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
@@ -278,7 +279,6 @@ const AllProducts = () => {
                 </option>
               ))}
             </select>
-            <i className="bx bx-filter"></i>
           </div>
 
           <button className="add-product-btn" onClick={handleAddProduct}>
