@@ -1,0 +1,1 @@
+export const FEE_DELIVERY  = 30000;
