@@ -6,7 +6,6 @@ import "./home.css"
 
 function Home() {
   return (
-    <>
       <main className='container_admin'>
         <Header />
         <Insights />
@@ -15,7 +14,6 @@ function Home() {
           <Reminders />
         </div>
       </main>
-    </>
   )
 }
 
