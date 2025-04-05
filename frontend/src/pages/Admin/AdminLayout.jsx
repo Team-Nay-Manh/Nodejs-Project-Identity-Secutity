@@ -5,7 +5,6 @@ import "./index.css"
 
 function AdminLayout() {
   return (
-    <>
       <div>
         <SideBar />
         <div className='content'>
@@ -13,7 +12,6 @@ function AdminLayout() {
           <Outlet />
         </div>
       </div>
-    </>
   )
 }
 
