@@ -12,11 +12,7 @@ export function useUser() {
   } = useQuery({
     queryKey: ["users"],
     queryFn: getUsers,
-    onSuccess: (data) => {
-      console.log("Users fetched successfully:", data)
-    },
     onError: (error) => {
-      console.error("Query Error:", error)
       toast.error(error?.message || "Failed to fetch users")
     }
   })

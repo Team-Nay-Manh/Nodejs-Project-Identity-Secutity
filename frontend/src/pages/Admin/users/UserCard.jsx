@@ -13,7 +13,6 @@ const UserCard = memo(({ record, children, tableType, ...props }) => {
     })
   })
 
-  console.log("Dragging user:", record, "from table:", tableType)
 
   if (!record?._id) return null
 

@@ -16,7 +16,6 @@ function UserPage() {
 
   const handleReorder = (user, tableType) => {
     if (!user?._id) return
-    // Here you can implement any additional logic for reordering
     console.log(`Reordering user ${user._id} in ${tableType} table`)
   }
 
