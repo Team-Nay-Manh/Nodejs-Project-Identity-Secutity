@@ -16,7 +16,6 @@ const Navbar = () => {
   const { currentUser, removeCurrentUser } = useAuthStore()
 
   const [open, setOpen] = useState(false)
-  console.log(currentUser)
 
   const handleLogout = () => {
     setOpen(false)
