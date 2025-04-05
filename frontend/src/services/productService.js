@@ -43,22 +43,28 @@ export const fetchProductById = async (productId) => {
   }
 }
 
+const createProductFormData = (productData) => {
+  const formData = new FormData()
+
+  Object.entries(productData).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      if (key === "image" && value instanceof File) {
+        formData.append(key, value)
+      } else {
+        formData.append(key, value)
+      }
+    }
+  })
+
+  return formData
+}
+
 export const addProduct = async (productData) => {
   try {
-    const formData = new FormData()
-
-    Object.keys(productData).forEach((key) => {
-      if (key === "image" && productData[key] instanceof File) {
-        formData.append(key, productData[key])
-      } else if (productData[key] !== undefined && productData[key] !== null) {
-        formData.append(key, productData[key])
-      }
-    })
+    const formData = createProductFormData(productData)
 
     const response = await apiRequest.post("/api/v1/products/add", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      headers: { "Content-Type": "multipart/form-data" },
     })
 
     return response.data.data
@@ -70,24 +76,12 @@ export const addProduct = async (productData) => {
 
 export const updateProduct = async (productId, productData) => {
   try {
-    const formData = new FormData()
-
-    Object.keys(productData).forEach((key) => {
-      if (key === "image" && productData[key] instanceof File) {
-        formData.append(key, productData[key])
-      } else if (productData[key] !== undefined && productData[key] !== null) {
-        formData.append(key, productData[key])
-      }
-    })
+    const formData = createProductFormData(productData)
 
     const response = await apiRequest.put(
       `/api/v1/products/${productId}`,
       formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
+      { headers: { "Content-Type": "multipart/form-data" } }
     )
 
     return response.data.data
