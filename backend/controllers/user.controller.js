@@ -22,3 +22,28 @@ export const getUser = async (req, res, next) => {
     next(error)
   }
 }
+
+export const toggleUserRole = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const user = await User.findById(id)
+
+    if (!user) {
+      const error = new Error("User not found")
+      error.status = 404
+      throw error
+    }
+
+    // Toggle role
+    user.role = user.role === "user" ? "admin" : "user"
+    await user.save()
+
+    res.status(200).json({
+      success: true,
+      message: "User role updated successfully",
+      data: user
+    })
+  } catch (error) {
+    next(error)
+  }
+}

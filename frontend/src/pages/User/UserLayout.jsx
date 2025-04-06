@@ -1,10 +1,9 @@
-import { Outlet } from "react-router-dom"
-import Navbar from "../../components/navbar/Navbar"
 import { useContext, useEffect, useState } from "react"
-import ScrollToTop from "../../components/srollToTop/ScrollToTop"
-import LoginPopup from "../../components/login/LoginPopup"
-import { StoreContext } from "../../context/StoreContext"
+import { Outlet } from "react-router-dom"
 import Footer from "../../components/footer/Footer"
+import Navbar from "../../components/navbar/Navbar"
+import ScrollToTop from "../../components/srollToTop/ScrollToTop"
+import { StoreContext } from "../../context/StoreContext"
 
 function UserLayout() {
   const [showButtonScrollToTop, setShowButtonScrollToTop] = useState(false)

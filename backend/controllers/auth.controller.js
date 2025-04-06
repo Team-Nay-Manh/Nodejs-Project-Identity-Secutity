@@ -29,9 +29,13 @@ export const signUp = async (req, res, next) => {
       { username, email, password: hasedPassword }
     ])
 
-    const token = jwt.sign({ userId: newUser[0].id }, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN
-    })
+    const token = jwt.sign(
+      { userId: newUser[0].id, role: "user" },
+      JWT_SECRET,
+      {
+        expiresIn: JWT_EXPIRES_IN
+      }
+    )
 
     await session.commitTransaction()
     session.endSession()
