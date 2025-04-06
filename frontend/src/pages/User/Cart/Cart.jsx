@@ -3,6 +3,7 @@ import styles from "./Cart.module.scss"
 import classNames from "classnames/bind"
 import { StoreContext } from "../../../context/StoreContext"
 import { useNavigate } from "react-router-dom"
+import { FEE_DELIVERY } from "../../../config/constants"
 
 const cx = classNames.bind(styles)
 
@@ -11,7 +12,7 @@ function Cart() {
     useContext(StoreContext)
 
   const navigate = useNavigate()
-  let feeDelivery = getTotalAmount() === 0 ? 0 : 2
+  let feeDelivery = getTotalAmount() === 0 ? 0 : FEE_DELIVERY
 
   return (
     <div className={cx("cart")}>
@@ -32,11 +33,13 @@ function Cart() {
             return (
               <div key={index}>
                 <div className={cx("cart-items-title", "cart-items-item")}>
-                  <img src={food.image} alt='Food' />
+                  <img src={food.image} alt="Food" />
                   <p>{food.name}</p>
-                  <p>${food.price}</p>
+                  <p>{food.price.toLocaleString("vi-VN")}₫</p>
                   <p>{cartItem[food._id]}</p>
-                  <p>${food.price * cartItem[food._id]}</p>
+                  <p>
+                    {(food.price * cartItem[food._id]).toLocaleString("vi-VN")}₫
+                  </p>
                   <p
                     onClick={() => removeFromCart(food._id)}
                     className={cx("remove")}
@@ -57,17 +60,17 @@ function Cart() {
           <div>
             <div className={cx("cart-total-details")}>
               <p>Subtoal</p>
-              <p>${getTotalAmount()}</p>
+              <p>{getTotalAmount().toLocaleString("vi-VN")}₫</p>
             </div>
             <hr />
             <div className={cx("cart-total-details")}>
               <p>Delivery Fee</p>
-              <p>${feeDelivery}</p>
+              <p>{feeDelivery.toLocaleString("vi-VN")}₫</p>
             </div>
             <hr />
             <div className={cx("cart-total-details")}>
               <b>Total</b>
-              <b>${getTotalAmount() + feeDelivery}</b>
+              <b>{(getTotalAmount() + feeDelivery).toLocaleString("vi-VN")}₫</b>
             </div>
             <button onClick={() => navigate("/order")}>
               proceed to checkout
@@ -78,7 +81,7 @@ function Cart() {
           <div>
             <p>If you have a promo code, Enter it here</p>
             <div className={cx("cart-promocode-input")}>
-              <input type='text' placeholder='PromoCode' />
+              <input type="text" placeholder="PromoCode" />
               <button>Submit</button>
             </div>
           </div>
