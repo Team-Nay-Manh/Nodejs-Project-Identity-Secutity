@@ -44,6 +44,7 @@ const OrderDetail = ({ order }) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
+      currencyDisplay: "symbol"
     }).format(amount);
   };
 

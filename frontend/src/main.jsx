@@ -17,6 +17,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import LoginAdminPage from "./pages/Admin/login/Login.jsx"
 import OrderPage from "./pages/Admin/orders/OrderPage.jsx"
 import OrderDetailsPage from "./pages/Admin/orders/OrderDetailsPage.jsx"
+import ProductPage from "./pages/Admin/products/ProductPage.jsx"
 
 const queryClient = new QueryClient()
 
@@ -29,40 +30,43 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <div>
               <Routes>
                 <Route element={<UserLayout />}>
-                  <Route path='/' element={<Home />} />
-                  <Route path='/cart' element={<Cart />} />
-                  <Route path='/order' element={<PlaceOrder />} />
+                  <Route path="/" element={<Home />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/order" element={<PlaceOrder />} />
                 </Route>
                 <Route element={<AdminLayout />}>
-                  <Route path='/admin/home' element={<HomeAdmin />} />
-                  <Route path='/admin/users' />
-                  <Route path='/admin/orders' element={<OrderPage />}/>
-                  <Route path="/admin/Orders/:orderId" element={<OrderDetailsPage />} />
-                  <Route path='/admin/products' />
+                  <Route path="/admin/home" element={<HomeAdmin />} />
+                  <Route path="/admin/users" />
+                  <Route path="/admin/orders" element={<OrderPage />} />
+                  <Route
+                    path="/admin/Orders/:orderId"
+                    element={<OrderDetailsPage />}
+                  />
+                  <Route path="/admin/products" element={<ProductPage />} />
                 </Route>
-                <Route path='/login' element={<Login />} />
-                <Route path='/admin/login' element={<LoginAdminPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/admin/login" element={<LoginAdminPage />} />
               </Routes>
             </div>
           </BrowserRouter>
           <Toaster
-            position='top-center'
+            position="top-center"
             gutter={12}
             containerStyle={{ margin: "8px" }}
             toastOptions={{
               success: {
-                duration: 3000
+                duration: 3000,
               },
               error: {
-                duration: 5000
+                duration: 5000,
               },
               style: {
                 fontSize: "16px",
                 maxWidth: " 500px",
                 padding: "24px 16px",
                 backgroundcolor: "var(--color-grey-0)",
-                color: "var(--color-grey-700)"
-              }
+                color: "var(--color-grey-700)",
+              },
             }}
           />
         </GlobalStyled>

@@ -24,3 +24,14 @@ export const authorize = async (req, res, next) => {
     res.status(404).json({ message: "Unanuthorized", error: error.message })
   }
 }
+
+export const isAdmin = (req, res, next) => {
+  if (req.user && req.user.role === "admin") {
+    next()
+  } else {
+    return res.status(403).json({
+      success: false,
+      message: "Access denied. Admin role required.",
+    })
+  }
+}

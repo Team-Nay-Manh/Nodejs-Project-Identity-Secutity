@@ -152,7 +152,7 @@ const Navbar = () => {
                             {product.category.name}
                           </p>
                           <p className={cx("product-price")}>
-                            ${product.price}
+                            {product.price} ₫
                           </p>
                         </div>
                       </div>
