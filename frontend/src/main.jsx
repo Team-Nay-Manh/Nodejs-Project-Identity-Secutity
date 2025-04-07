@@ -20,6 +20,11 @@ import AdminLayout from "./pages/Admin/AdminLayout"
 import { default as HomeAdmin } from "./pages/Admin/home/Home"
 import Login from "./pages/User/Login/Login"
 import "./index.css"
+import OrderPage from "./pages/Admin/orders/OrderPage.jsx"
+import OrderDetailsPage from "./pages/Admin/orders/OrderDetailsPage.jsx"
+import ProductPage from "./pages/Admin/products/ProductPage.jsx"
+import OrderHistory from "./pages/User/OrderHistory/OrderHistory.jsx"
+import OrderDetails from "./pages/User/OrderHistory/OrderDetails.jsx"
 
 const queryClient = new QueryClient()
 
@@ -38,11 +43,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                     </ProtectedRouteUser>
                   }
                 >
-                  <Route path='/cart' element={<Cart />} />
-                  <Route path='/order' element={<PlaceOrder />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/order" element={<PlaceOrder />} />
+                  <Route path="/my-orders" element={<OrderHistory />} />
+                  <Route
+                    path="/order-details/:orderId"
+                    element={<OrderDetails />}
+                  />
                 </Route>
                 <Route element={<UserLayout />}>
-                  <Route path='/' element={<Home />} />
+                  <Route path="/" element={<Home />} />
                 </Route>
                 <Route
                   element={
@@ -51,34 +61,38 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                     </ProtectedRouteAdmin>
                   }
                 >
-                  <Route path='/admin/home' element={<HomeAdmin />} />
-                  <Route path='/admin/users' element={<UserPage />} />
-                  <Route path='/admin/orders' />
-                  <Route path='/admin/products' />
+                  <Route path="/admin/home" element={<HomeAdmin />} />
+                  <Route path="/admin/users" element={<UserPage />} />
+                  <Route path="/admin/orders" element={<OrderPage />} />
+                  <Route
+                    path="/admin/Orders/:orderId"
+                    element={<OrderDetailsPage />}
+                  />
+                  <Route path="/admin/products" element={<ProductPage />} />
                 </Route>
-                <Route path='/login' element={<Login />} />
-                <Route path='/admin/login' element={<LoginAdminPage />} />
-                <Route path='*' element={<PageNotFound />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/admin/login" element={<LoginAdminPage />} />
+                <Route path="*" element={<PageNotFound />} />
               </Routes>
             </BrowserRouter>
             <Toaster
-              position='top-center'
+              position="top-center"
               gutter={12}
               containerStyle={{ margin: "8px" }}
               toastOptions={{
                 success: {
-                  duration: 3000
+                  duration: 3000,
                 },
                 error: {
-                  duration: 5000
+                  duration: 5000,
                 },
                 style: {
                   fontSize: "16px",
                   maxWidth: " 500px",
                   padding: "24px 16px",
                   backgroundcolor: "var(--color-grey-0)",
-                  color: "var(--color-grey-700)"
-                }
+                  color: "var(--color-grey-700)",
+                },
               }}
             />
           </GlobalStyled>

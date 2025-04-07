@@ -1,73 +1,73 @@
-import classNames from "classnames/bind"
-import PropTypes from "prop-types"
-import { useContext, useState, useRef, useEffect } from "react"
-import toast from "react-hot-toast"
-import { Link } from "react-router-dom"
-import { assets } from "../../assets/assets.js"
-import { StoreContext } from "../../context/StoreContext.jsx"
-import useAuthStore from "../../utils/authStore.js"
-import { searchProducts } from "../../services/productService.js"
-import styles from "./Navbar.module.scss"
+import classNames from "classnames/bind";
+import PropTypes from "prop-types";
+import { useContext, useState, useRef, useEffect } from "react";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+import { assets } from "../../assets/assets.js";
+import { StoreContext } from "../../context/StoreContext.jsx";
+import useAuthStore from "../../utils/authStore.js";
+import { searchProducts } from "../../services/productService.js";
+import styles from "./Navbar.module.scss";
 
-const cx = classNames.bind(styles)
+const cx = classNames.bind(styles);
 
 const Navbar = () => {
-  const [menu, setMenu] = useState("menu")
+  const [menu, setMenu] = useState("menu");
   const {
     getTotalAmount,
     getItemFromCart,
     addToCart,
     removeFromCart,
     cartItem,
-  } = useContext(StoreContext)
-  const { currentUser, removeCurrentUser } = useAuthStore()
+  } = useContext(StoreContext);
+  const { currentUser, removeCurrentUser } = useAuthStore();
 
-  const [open, setOpen] = useState(false)
-  const [showSearch, setShowSearch] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [searchResults, setSearchResults] = useState([])
-  const [loading, setLoading] = useState(false)
-  const searchRef = useRef(null)
+  const [open, setOpen] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const searchRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowSearch(false)
+        setShowSearch(false);
       }
-    }
+    };
 
-    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [])
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSearch = async (e) => {
-    const query = e.target.value
-    setSearchQuery(query)
+    const query = e.target.value;
+    setSearchQuery(query);
 
     if (query.trim().length > 0) {
-      setLoading(true)
+      setLoading(true);
       try {
-        const results = await searchProducts(query)
-        setSearchResults(results)
+        const results = await searchProducts(query);
+        setSearchResults(results);
       } catch (error) {
-        console.error("Error searching products:", error)
-        toast.error("Error searching foods")
-        setSearchResults([])
+        console.error("Error searching products:", error);
+        toast.error("Error searching foods");
+        setSearchResults([]);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     } else {
-      setSearchResults([])
+      setSearchResults([]);
     }
-  }
+  };
 
   const handleLogout = () => {
-    setOpen(false)
-    removeCurrentUser()
-    toast.success("Logout Successfully!!!")
-  }
+    setOpen(false);
+    removeCurrentUser();
+    toast.success("Logout Successfully!!!");
+  };
 
   return (
     <div className={cx("navbar")} id="navbar">
@@ -221,6 +221,11 @@ const Navbar = () => {
             {open && (
               <section className={cx("avatar_dropdown")}>
                 <ul className={cx("dropdown_list")}>
+                  <li className={cx("dropdown_item")}>
+                    <Link to="/my-orders" onClick={() => setOpen(false)}>
+                      My Orders
+                    </Link>
+                  </li>
                   <li className={cx("dropdown_item")} onClick={handleLogout}>
                     Logout
                   </li>
@@ -235,11 +240,11 @@ const Navbar = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
 
 Navbar.propTypes = {
   setShowLogin: PropTypes.func,
-}
+};

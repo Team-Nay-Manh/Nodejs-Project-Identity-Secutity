@@ -99,12 +99,14 @@ const OrderDetail = ({ order }) => {
             <tbody>
               {order.products.map((item, index) => {
                 // Find the matching product from the fetched products array
-                const product = products.find((p) => p._id === item.productId);
+                // Handle both string IDs and populated objects
+                const productId = typeof item.productId === 'object' ? item.productId._id : item.productId;
+                const product = products.find((p) => p._id === productId);
                 return (
                   <tr key={item._id || index}>
                     <td>
                       {/* Display product name if available, otherwise fallback */}
-                      {product?.name || `Product ID: ${item.productId}`}
+                      {product?.name || (item.productId?.name ? item.productId.name : `Product ID: ${productId}`)}
                     </td>
                     <td>{item.quantity}</td>
                     <td>{formatCurrency(item.price)}</td>

@@ -4,6 +4,7 @@ import classNames from "classnames/bind"
 import { useLogin } from "../../pages/User/Login/useLogin"
 import { useRegister } from "../../pages/User/Login/useRegister"
 import { StoreContext } from "../../context/StoreContext"
+import OTPLogin from "./OTPLogin"
 
 const cx = classNames.bind(styles)
 
@@ -12,6 +13,7 @@ function LoginPopup() {
   const { login, isLoadingLogin, errorLogin } = useLogin()
   const { register, isLoadingRegister, errorRegister } = useRegister()
   const { setShowLogin } = useContext(StoreContext)
+  const [useOTP, setUseOTP] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -29,6 +31,10 @@ function LoginPopup() {
       register(data)
       setCurrState("Login")
     }
+  }
+
+  if (useOTP) {
+    return <OTPLogin setShowLogin={setShowLogin} />
   }
 
   return (
@@ -65,10 +71,16 @@ function LoginPopup() {
 
         <div className={cx("login-container-popup")}>
           {currState === "Login" && (
-            <p>
-              Create a new account???{" "}
-              <span onClick={() => setCurrState("Sign up")}>Click here</span>
-            </p>
+            <>
+              <p>
+                Create a new account???{" "}
+                <span onClick={() => setCurrState("Sign up")}>Click here</span>
+              </p>
+              <p>
+                Đăng nhập bằng OTP?{" "}
+                <span onClick={() => setUseOTP(true)}>Click here</span>
+              </p>
+            </>
           )}
 
           {currState !== "Login" && (
