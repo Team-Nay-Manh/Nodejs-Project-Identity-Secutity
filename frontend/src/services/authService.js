@@ -32,6 +32,9 @@ export const sendOTP = async (email) => {
     const res = await apiRequest.post("/api/v1/auth/send-otp", { email })
     return res.data
   } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.error || 'Có lỗi xảy ra')
+    }
     throw new Error(error.message)
   }
 }
@@ -46,6 +49,9 @@ export const verifyOTP = async (email, otp) => {
     })
     return res.data
   } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.error || 'Có lỗi xảy ra')
+    }
     throw new Error(error.message)
   }
 }
