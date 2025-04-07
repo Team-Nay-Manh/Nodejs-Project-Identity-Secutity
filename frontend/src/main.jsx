@@ -26,6 +26,7 @@ import ProductPage from "./pages/Admin/products/ProductPage.jsx"
 import OrderHistory from "./pages/User/OrderHistory/OrderHistory.jsx"
 import OrderDetails from "./pages/User/OrderHistory/OrderDetails.jsx"
 import { AxiosInterceptor } from "./config/HandleCountdown.jsx"
+import VerfiyEmail from "./pages/User/VerifyEmail/VerfiyEmail.jsx"
 
 const queryClient = new QueryClient()
 
@@ -66,6 +67,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                     <Route path='/admin' element={<HomeAdmin />} />
                     <Route path='/admin/users' element={<UserPage />} />
                     <Route path='/admin/orders' element={<OrderPage />} />
+                    <Route path='/admin/orders' element={<OrderPage />} />
                     <Route
                       path='/admin/order-details/:orderId'
                       element={<OrderDetailsPage />}
@@ -73,8 +75,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                     <Route path='/admin/products' element={<ProductPage />} />
                   </Route>
                   <Route path='/login' element={<Login />} />
+                  <Route path='/verifyEmail' element={<VerfiyEmail />} />
                   <Route path='/admin/login' element={<LoginAdminPage />} />
-
                   <Route path='*' element={<PageNotFound />} />
                 </Routes>
               </BrowserRouter>

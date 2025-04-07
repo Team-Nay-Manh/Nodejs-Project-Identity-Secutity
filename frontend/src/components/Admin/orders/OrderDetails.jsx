@@ -1,71 +1,78 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import apiRequest from "../../../config/axios"
+import OrderStatus from "./OrderStatus"
+import { useOrder } from "../../../pages/Admin/orders/useOrder"
 
 const OrderDetail = ({ order }) => {
-  const [products, setProducts] = useState([]); // State to store fetched products
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]) // State to store fetched products
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const { orderMutation } = useOrder()
 
   useEffect(() => {
     const fetchProducts = async () => {
-      setLoading(true);
-      setError(null);
+      setLoading(true)
+      setError(null)
 
       try {
-        const response = await apiRequest.get('/api/v1/products/');
-        
+        const response = await apiRequest.get("/api/v1/products/")
+
         if (!response.data.success) {
-          throw new Error("API response indicates failure");
+          throw new Error("API response indicates failure")
         }
 
         if (!Array.isArray(response.data.data?.products)) {
-          throw new Error("Invalid product data format");
+          throw new Error("Invalid product data format")
         }
 
-        setProducts(response.data.data.products);
+        setProducts(response.data.data.products)
       } catch (err) {
-        console.error("Failed to fetch products:", err);
-        setError(err.message || "Có lỗi xảy ra khi tải danh sách sản phẩm");
+        console.error("Failed to fetch products:", err)
+        setError(err.message || "Có lỗi xảy ra khi tải danh sách sản phẩm")
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchProducts();
-  }, []); 
+    fetchProducts()
+  }, [])
 
   if (!order) {
-    return <div className="order-detail-page">Order not found.</div>;
+    return <div className='order-detail-page'>Order not found.</div>
   }
 
   // Helper to format currency
   const formatCurrency = (amount) => {
-    if (typeof amount !== "number") return "N/A";
+    if (typeof amount !== "number") return "N/A"
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
       currencyDisplay: "symbol"
-    }).format(amount);
-  };
+    }).format(amount)
+  }
 
   // Calculate subtotal from order.products
   const subtotal =
     order.products?.reduce((sum, item) => {
-      return sum + item.quantity * item.price;
-    }, 0) ?? 0;
+      return sum + item.quantity * item.price
+    }, 0) ?? 0
 
   return (
-    <div className="order-detail-page">
-      <h2>
-        Order Details - ID: {order._id}
-        <span className={`status ${order.status?.toLowerCase()}`}>
-          {order.status}
-        </span>
-      </h2>
+    <div className='order-detail-page'>
+      <div className='order-header'>
+        <h2>Order Details - ID: {order._id}</h2>
+        <div className='status-section'>
+          <OrderStatus
+            status={order.status?.toLowerCase()}
+            onStatusChange={orderMutation}
+            orderId={order._id}
+          />
+        </div>
+      </div>
 
-      <div className="detail-section customer-info">
+      <div className='detail-section customer-info'>
         <h3>Customer Information</h3>
-        <div className="customer-header">
+        <div className='customer-header'>
           <p>
             <strong>Name:</strong> {order.userId?.username || "N/A"}
           </p>
@@ -80,7 +87,7 @@ const OrderDetail = ({ order }) => {
           <strong>Order Created Date:</strong> {order.createdAt}
         </p>
       </div>
-      <div className="detail-section items-ordered">
+      <div className='detail-section items-ordered'>
         <h3>Items Ordered</h3>
         {loading ? (
           <p>Loading products...</p>
@@ -100,25 +107,31 @@ const OrderDetail = ({ order }) => {
               {order.products.map((item, index) => {
                 // Find the matching product from the fetched products array
                 // Handle both string IDs and populated objects
-                const productId = typeof item.productId === 'object' ? item.productId._id : item.productId;
-                const product = products.find((p) => p._id === productId);
+                const productId =
+                  typeof item.productId === "object"
+                    ? item.productId._id
+                    : item.productId
+                const product = products.find((p) => p._id === productId)
                 return (
                   <tr key={item._id || index}>
                     <td>
                       {/* Display product name if available, otherwise fallback */}
-                      {product?.name || (item.productId?.name ? item.productId.name : `Product ID: ${productId}`)}
+                      {product?.name ||
+                        (item.productId?.name
+                          ? item.productId.name
+                          : `Product ID: ${productId}`)}
                     </td>
                     <td>{item.quantity}</td>
                     <td>{formatCurrency(item.price)}</td>
                     <td>{formatCurrency(item.quantity * item.price)}</td>
                   </tr>
-                );
+                )
               })}
             </tbody>
             <tfoot>
               <tr>
                 <td
-                  colSpan="3"
+                  colSpan='3'
                   style={{ textAlign: "right", fontWeight: "bold" }}
                 >
                   Subtotal:
@@ -134,7 +147,7 @@ const OrderDetail = ({ order }) => {
         )}
       </div>
 
-      <div className="detail-section totals">
+      <div className='detail-section totals'>
         <h3>Totals</h3>
         <p>
           <strong>Total Amount:</strong>{" "}
@@ -142,7 +155,7 @@ const OrderDetail = ({ order }) => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default OrderDetail;
+export default OrderDetail

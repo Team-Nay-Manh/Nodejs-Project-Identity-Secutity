@@ -8,28 +8,29 @@ import { useNavigate } from "react-router-dom"
 
 const cx = classNames.bind(styles)
 
-function OTPLogin({ setShowLogin }) {
-  const [email, setEmail] = useState("")
+function OTPLogin({ setShowLogin, email }) {
   const [otp, setOtp] = useState("")
   const [otpSent, setOtpSent] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { setCurrentUser } = useAuthStore()
   const navigate = useNavigate()
 
+  console.log(email)
+
   const handleSendOTP = async (e) => {
     e.preventDefault()
     if (!email) {
-      toast.error("Vui lòng nhập email")
+      toast.error("Please enter email")
       return
     }
 
     setIsLoading(true)
     try {
       await sendOTP(email)
-      toast.success("Mã OTP đã được gửi đến email của bạn")
+      toast.success("OTP was sent to your email")
       setOtpSent(true)
     } catch (error) {
-      toast.error(error.message || "Không thể gửi OTP. Vui lòng thử lại.")
+      toast.error(error.message || "Cannot send OTP. Please try again.")
     } finally {
       setIsLoading(false)
     }
@@ -38,19 +39,19 @@ function OTPLogin({ setShowLogin }) {
   const handleVerifyOTP = async (e) => {
     e.preventDefault()
     if (!otp) {
-      toast.error("Vui lòng nhập mã OTP")
+      toast.error("Please enter OTP")
       return
     }
 
     setIsLoading(true)
     try {
       const response = await verifyOTP(email, otp)
-      toast.success("Đăng nhập thành công!")
+      toast.success("Login successfully!!!")
       setCurrentUser(response.data.user)
       setShowLogin(false)
       navigate("/")
     } catch (error) {
-      toast.error(error.message || "Mã OTP không đúng. Vui lòng thử lại.")
+      toast.error(error.message || "OTP verification failed. Please try again.")
     } finally {
       setIsLoading(false)
     }
@@ -60,47 +61,29 @@ function OTPLogin({ setShowLogin }) {
     <div className={cx("login")}>
       <div className={cx("login-container")}>
         <div className={cx("login-container-title")}>
-          <h2>Đăng nhập bằng OTP</h2>
+          <h2>Xác thực OTP</h2>
         </div>
 
-        {!otpSent ? (
-          <form
-            onSubmit={handleSendOTP}
-            className={cx("login-container-inputs")}
-          >
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Nhập email của bạn"
-              required
-            />
-            <button type="submit" disabled={isLoading}>
-              {isLoading ? "Đang gửi..." : "Gửi mã OTP"}
-            </button>
-          </form>
-        ) : (
-          <form
-            onSubmit={handleVerifyOTP}
-            className={cx("login-container-inputs")}
-          >
-            <input
-              type="text"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              placeholder="Nhập mã OTP"
-              required
-            />
-            <button type="submit" disabled={isLoading}>
-              {isLoading ? "Đang xác thực..." : "Xác thực OTP"}
-            </button>
-            <div className={cx("login-container-popup")}>
-              <p>
-                Không nhận được mã? <span onClick={handleSendOTP}>Gửi lại</span>
-              </p>
-            </div>
-          </form>
-        )}
+        <form
+          onSubmit={handleVerifyOTP}
+          className={cx("login-container-inputs")}
+        >
+          <input
+            type='text'
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            placeholder='Nhập mã OTP'
+            required
+          />
+          <button type='submit' disabled={isLoading}>
+            {isLoading ? "Đang xác thực..." : "Xác thực OTP"}
+          </button>
+          <div className={cx("login-container-popup")}>
+            <p>
+              Không nhận được mã? <span onClick={handleSendOTP}>Gửi lại</span>
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   )

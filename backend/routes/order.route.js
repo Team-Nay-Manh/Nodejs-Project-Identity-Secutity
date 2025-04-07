@@ -4,42 +4,16 @@ import {
   getOrders,
   updateOrderStatus,
   deleteOrder,
-  getOrderById,
+  getOrderById
 } from "../controllers/order.controller.js"
 import { authorize } from "../middlewares/auth.middlewares.js"
 
 const orderRouter = Router()
-/**
- * @route POST /api/orders
- * @description Tạo đơn hàng mới
- * @access Private (Người dùng đã đăng nhập)
- */
+
 orderRouter.post("/", authorize, createOrder)
-
-/**
- * @route GET /api/orders
- * @description Lấy danh sách đơn hàng
- * - Admin: Xem tất cả đơn hàng
- * - User: Xem đơn hàng của mình
- * @access Private
- */
 orderRouter.get("/", authorize, getOrders)
-
-
-orderRouter.get("/:id",authorize,getOrderById)
-
-
-/**
- * @route PUT /api/orders/:id/status
- * @description Cập nhật trạng thái đơn hàng (Admin only)
- * @access Private (Admin)
- */
+orderRouter.get("/:id", authorize, getOrderById)
 orderRouter.put("/:id/status", authorize, updateOrderStatus)
-
-/**
- * @route DELETE /api/orders/:id
- * @description Xóa đơn hàng (Chỉ admin hoặc chủ đơn hàng, đơn chưa hoàn thành)
- * @access Private
- */
 orderRouter.delete("/:id", authorize, deleteOrder)
+orderRouter.delete("/update", authorize, deleteOrder)
 export default orderRouter
