@@ -4,6 +4,7 @@ import Footer from "../../components/footer/Footer"
 import Navbar from "../../components/navbar/Navbar"
 import ScrollToTop from "../../components/srollToTop/ScrollToTop"
 import { StoreContext } from "../../context/StoreContext"
+import LoginPopup from "../../components/login/LoginPopup"
 
 function UserLayout() {
   const [showButtonScrollToTop, setShowButtonScrollToTop] = useState(false)
