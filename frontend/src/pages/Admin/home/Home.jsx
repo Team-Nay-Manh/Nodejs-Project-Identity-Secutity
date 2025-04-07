@@ -6,16 +6,14 @@ import "./home.css"
 
 function Home() {
   return (
-    <>
-      <main>
+      <main className='container_admin'>
         <Header />
         <Insights />
         <div className='bottom-data'>
-          <RecentOrders  />
+          <Orders />
           <Reminders />
         </div>
       </main>
-    </>
   )
 }
 
