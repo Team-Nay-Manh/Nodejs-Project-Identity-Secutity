@@ -25,17 +25,17 @@ import OrderDetailsPage from "./pages/Admin/orders/OrderDetailsPage.jsx"
 import ProductPage from "./pages/Admin/products/ProductPage.jsx"
 import OrderHistory from "./pages/User/OrderHistory/OrderHistory.jsx"
 import OrderDetails from "./pages/User/OrderHistory/OrderDetails.jsx"
-import { AxiosInterceptor } from "./config/axios.jsx"
+import { AxiosInterceptor } from "./config/HandleCountdown.jsx"
 
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <DndProvider backend={HTML5Backend}>
-      <StoreContextProvider>
-        <QueryClientProvider client={queryClient}>
-          <GlobalStyled>
-            <AxiosInterceptor>
+    <AxiosInterceptor>
+      <DndProvider backend={HTML5Backend}>
+        <StoreContextProvider>
+          <QueryClientProvider client={queryClient}>
+            <GlobalStyled>
               <BrowserRouter>
                 <Routes>
                   <Route
@@ -88,10 +88,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                   }
                 }}
               />
-            </AxiosInterceptor>
-          </GlobalStyled>
-        </QueryClientProvider>
-      </StoreContextProvider>
-    </DndProvider>
+            </GlobalStyled>
+          </QueryClientProvider>
+        </StoreContextProvider>
+      </DndProvider>
+    </AxiosInterceptor>
   </React.StrictMode>
 )
