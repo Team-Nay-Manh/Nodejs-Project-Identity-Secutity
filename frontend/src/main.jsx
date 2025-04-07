@@ -25,6 +25,7 @@ import OrderDetailsPage from "./pages/Admin/orders/OrderDetailsPage.jsx"
 import ProductPage from "./pages/Admin/products/ProductPage.jsx"
 import OrderHistory from "./pages/User/OrderHistory/OrderHistory.jsx"
 import OrderDetails from "./pages/User/OrderHistory/OrderDetails.jsx"
+import { AxiosInterceptor } from "./config/axios.jsx"
 
 const queryClient = new QueryClient()
 
@@ -34,67 +35,60 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <StoreContextProvider>
         <QueryClientProvider client={queryClient}>
           <GlobalStyled>
-            <BrowserRouter>
-              <Routes>
-                <Route
-                  element={
-                    <ProtectedRouteUser>
-                      <UserLayout />
-                    </ProtectedRouteUser>
-                  }
-                >
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/order" element={<PlaceOrder />} />
-                  <Route path="/my-orders" element={<OrderHistory />} />
+            <AxiosInterceptor>
+              <BrowserRouter>
+                <Routes>
                   <Route
-                    path="/order-details/:orderId"
-                    element={<OrderDetails />}
-                  />
-                </Route>
-                <Route element={<UserLayout />}>
-                  <Route path="/" element={<Home />} />
-                </Route>
-                <Route
-                  element={
-                    <ProtectedRouteAdmin>
-                      <AdminLayout />
-                    </ProtectedRouteAdmin>
-                  }
-                >
-                  <Route path="/admin/home" element={<HomeAdmin />} />
-                  <Route path="/admin/users" element={<UserPage />} />
-                  <Route path="/admin/orders" element={<OrderPage />} />
+                    element={
+                      <ProtectedRouteUser>
+                        <UserLayout />
+                      </ProtectedRouteUser>
+                    }
+                  >
+                    <Route path='/cart' element={<Cart />} />
+                    <Route path='/order' element={<PlaceOrder />} />
+                    <Route path='/my-orders' element={<OrderHistory />} />
+                    <Route
+                      path='/order-details/:orderId'
+                      element={<OrderDetails />}
+                    />
+                  </Route>
+                  <Route element={<UserLayout />}>
+                    <Route path='/' element={<Home />} />
+                  </Route>
                   <Route
-                    path="/admin/Orders/:orderId"
-                    element={<OrderDetailsPage />}
-                  />
-                  <Route path="/admin/products" element={<ProductPage />} />
-                </Route>
-                <Route path="/login" element={<Login />} />
-                <Route path="/admin/login" element={<LoginAdminPage />} />
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
-            </BrowserRouter>
-            <Toaster
-              position="top-center"
-              gutter={12}
-              containerStyle={{ margin: "8px" }}
-              toastOptions={{
-                success: {
-                  duration: 3000,
-                },
-                error: {
+                    element={
+                      <ProtectedRouteAdmin>
+                        <AdminLayout />
+                      </ProtectedRouteAdmin>
+                    }
+                  >
+                    <Route path='/admin' element={<HomeAdmin />} />
+                    <Route path='/admin/users' element={<UserPage />} />
+                    <Route path='/admin/orders' element={<OrderPage />} />
+                    <Route
+                      path='/admin/order-details/:orderId'
+                      element={<OrderDetailsPage />}
+                    />
+                    <Route path='/admin/products' element={<ProductPage />} />
+                  </Route>
+                  <Route path='/login' element={<Login />} />
+                  <Route path='/admin/login' element={<LoginAdminPage />} />
+
+                  <Route path='*' element={<PageNotFound />} />
+                </Routes>
+              </BrowserRouter>
+              <Toaster
+                position='top-center'
+                toastOptions={{
                   duration: 5000,
-                },
-                style: {
-                  fontSize: "16px",
-                  maxWidth: " 500px",
-                  padding: "24px 16px",
-                  backgroundcolor: "var(--color-grey-0)",
-                  color: "var(--color-grey-700)",
-                },
-              }}
-            />
+                  style: {
+                    background: "#ff4d4f",
+                    color: "#fff"
+                  }
+                }}
+              />
+            </AxiosInterceptor>
           </GlobalStyled>
         </QueryClientProvider>
       </StoreContextProvider>

@@ -25,7 +25,7 @@ function LoginPopup() {
       login(data, {
         onSuccess: () => {
           setShowLogin(false)
-        },
+        }
       })
     } else {
       register(data)
@@ -46,17 +46,17 @@ function LoginPopup() {
         <div className={cx("login-container-inputs")}>
           {currState !== "Login" && (
             <input
-              type="text"
-              placeholder="Your Name"
-              name="username"
+              type='text'
+              placeholder='Your Name'
+              name='username'
               required
             />
           )}
-          <input type="email" name="email" placeholder="Your Email" required />
+          <input type='email' name='email' placeholder='Your Email' required />
           <input
-            type="password"
-            name="password"
-            placeholder="Passsword"
+            type='password'
+            name='password'
+            placeholder='Passsword'
             required
           />
         </div>
