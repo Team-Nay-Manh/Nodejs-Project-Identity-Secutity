@@ -3,7 +3,7 @@ import rateLimit from "express-rate-limit"
 // Cấu hình rate limiting cho đăng nhập
 export const loginLimiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 2 phút
-  max: 2, // Giới hạn 5 lần đăng nhập trong 5 phút
+  max: 1, // Giới hạn 5 lần đăng nhập trong 5 phút
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => {
