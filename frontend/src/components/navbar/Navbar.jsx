@@ -221,6 +221,11 @@ const Navbar = () => {
             {open && (
               <section className={cx("avatar_dropdown")}>
                 <ul className={cx("dropdown_list")}>
+                  <li className={cx("dropdown_item")}>
+                    <Link to="/my-orders" onClick={() => setOpen(false)}>
+                      My Orders
+                    </Link>
+                  </li>
                   <li className={cx("dropdown_item")} onClick={handleLogout}>
                     Logout
                   </li>

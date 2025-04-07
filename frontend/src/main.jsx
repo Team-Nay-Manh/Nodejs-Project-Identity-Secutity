@@ -23,6 +23,8 @@ import "./index.css"
 import OrderPage from "./pages/Admin/orders/OrderPage.jsx"
 import OrderDetailsPage from "./pages/Admin/orders/OrderDetailsPage.jsx"
 import ProductPage from "./pages/Admin/products/ProductPage.jsx"
+import OrderHistory from "./pages/User/OrderHistory/OrderHistory.jsx"
+import OrderDetails from "./pages/User/OrderHistory/OrderDetails.jsx"
 
 const queryClient = new QueryClient()
 
@@ -43,6 +45,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 >
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/order" element={<PlaceOrder />} />
+                  <Route path="/my-orders" element={<OrderHistory />} />
+                  <Route
+                    path="/order-details/:orderId"
+                    element={<OrderDetails />}
+                  />
                 </Route>
                 <Route element={<UserLayout />}>
                   <Route path="/" element={<Home />} />

@@ -89,6 +89,7 @@ export const getOrders = async (req, res) => {
   
       const orders = await Order.find(query)
         .populate("userId", "username email")
+        .populate("products.productId", "name image")
         .sort({ createdAt: -1 })
         .limit(parseInt(limit))
         .skip((page - 1) * limit);
@@ -194,8 +195,8 @@ export const getOrders = async (req, res) => {
      }
 
      const order = await Order.findById(id)
-      .populate("userId", "username email address"); 
- 
+      .populate("userId", "username email address")
+      .populate("products.productId", "name image");
 
      if (!order) {
        throw new Error("Order not found", { cause: HTTP_STATUS.NOT_FOUND });
