@@ -38,3 +38,21 @@ export const getOrderById = async (orderId) => {
     throw error
   }
 }
+
+export const updateStatus = async (data) => {
+  try {
+    const response = await apiRequest.put(
+      `/api/v1/order/${data.orderId}/status`,
+      data
+    )
+
+    if (!response.data.success) {
+      throw new Error(response.data.message || "Failed to fetch order details")
+    }
+
+    return response.data
+  } catch (error) {
+    console.error("Error fetching order details:", error)
+    throw error
+  }
+}

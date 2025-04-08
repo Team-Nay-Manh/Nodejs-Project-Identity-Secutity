@@ -5,6 +5,8 @@ import { useLogin } from "../../pages/User/Login/useLogin"
 import { useRegister } from "../../pages/User/Login/useRegister"
 import { StoreContext } from "../../context/StoreContext"
 import OTPLogin from "./OTPLogin"
+import toast from "react-hot-toast"
+import { sendOTP } from "../../services/authService"
 
 const cx = classNames.bind(styles)
 
@@ -13,7 +15,23 @@ function LoginPopup() {
   const { login, isLoadingLogin, errorLogin } = useLogin()
   const { register, isLoadingRegister, errorRegister } = useRegister()
   const { setShowLogin } = useContext(StoreContext)
+  const [email, setEmail] = useState("")
   const [useOTP, setUseOTP] = useState(false)
+
+  const handleSendOTP = async (e) => {
+    e.preventDefault()
+    if (!email) {
+      toast.error("Vui lòng nhập email")
+      return
+    }
+
+    try {
+      await sendOTP(email)
+      toast.success("Mã OTP đã được gửi đến email của bạn")
+    } catch (error) {
+      toast.error(error.message || "Không thể gửi OTP. Vui lòng thử lại.")
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -21,11 +39,14 @@ function LoginPopup() {
     const data = Object.fromEntries(formData)
 
     console.log(data)
+
     if (currState === "Login") {
       login(data, {
         onSuccess: () => {
+          handleSendOTP(email)
           setShowLogin(false)
-        },
+          setUseOTP(true)
+        }
       })
     } else {
       register(data)
@@ -34,7 +55,7 @@ function LoginPopup() {
   }
 
   if (useOTP) {
-    return <OTPLogin setShowLogin={setShowLogin} />
+    return <OTPLogin setShowLogin={setShowLogin} email={email} />
   }
 
   return (
@@ -46,17 +67,24 @@ function LoginPopup() {
         <div className={cx("login-container-inputs")}>
           {currState !== "Login" && (
             <input
-              type="text"
-              placeholder="Your Name"
-              name="username"
+              type='text'
+              placeholder='Your Name'
+              name='username'
               required
             />
           )}
-          <input type="email" name="email" placeholder="Your Email" required />
           <input
-            type="password"
-            name="password"
-            placeholder="Passsword"
+            type='email'
+            name='email'
+            placeholder='Your Email'
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type='password'
+            name='password'
+            placeholder='Passsword'
             required
           />
         </div>
@@ -71,16 +99,10 @@ function LoginPopup() {
 
         <div className={cx("login-container-popup")}>
           {currState === "Login" && (
-            <>
-              <p>
-                Create a new account???{" "}
-                <span onClick={() => setCurrState("Sign up")}>Click here</span>
-              </p>
-              <p>
-                Đăng nhập bằng OTP?{" "}
-                <span onClick={() => setUseOTP(true)}>Click here</span>
-              </p>
-            </>
+            <p>
+              Create a new account???{" "}
+              <span onClick={() => setCurrState("Sign up")}>Click here</span>
+            </p>
           )}
 
           {currState !== "Login" && (

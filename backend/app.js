@@ -1,15 +1,17 @@
+import cookieParser from "cookie-parser"
+import cors from "cors"
 import express from "express"
 import { CLIENT_URL, PORT } from "./config/env.js"
-import userRouter from "./routes/user.route.js"
-import authRouter from "./routes/auth.route.js"
 import connectToDatabase from "./databases/mongodb.js"
 import errormiddlewares from "./middlewares/error.middlewares.js"
-import cookieParser from "cookie-parser"
+import { loginLimiter, registerLimiter } from "./middlewares/rateLimiter.js"
+import authRouter from "./routes/auth.route.js"
 import cartRouter from "./routes/cart.route.js"
-import productRouter from "./routes/product.route.js"
-import orderRouter from "./routes/order.route.js"
 import categoryRouter from "./routes/category.route.js"
-import cors from "cors"
+import orderRouter from "./routes/order.route.js"
+import productRouter from "./routes/product.route.js"
+import userRouter from "./routes/user.route.js"
+
 const app = express()
 
 app.use(express.json())
@@ -17,6 +19,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(cors({ origin: CLIENT_URL, credentials: true }))
 
+// Áp dụng rate limiting cho route đăng nhập trước khi định nghĩa route
+app.use("/api/v1/auth/sign-in", loginLimiter)
+app.use("/api/v1/auth/sign-up", registerLimiter)
+
+// Định nghĩa các route
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/cart", cartRouter)

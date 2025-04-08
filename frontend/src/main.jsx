@@ -25,79 +25,75 @@ import OrderDetailsPage from "./pages/Admin/orders/OrderDetailsPage.jsx"
 import ProductPage from "./pages/Admin/products/ProductPage.jsx"
 import OrderHistory from "./pages/User/OrderHistory/OrderHistory.jsx"
 import OrderDetails from "./pages/User/OrderHistory/OrderDetails.jsx"
+import { AxiosInterceptor } from "./config/HandleCountdown.jsx"
+import VerfiyEmail from "./pages/User/VerifyEmail/VerfiyEmail.jsx"
 
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <DndProvider backend={HTML5Backend}>
-      <StoreContextProvider>
-        <QueryClientProvider client={queryClient}>
-          <GlobalStyled>
-            <BrowserRouter>
-              <Routes>
-                <Route
-                  element={
-                    <ProtectedRouteUser>
-                      <UserLayout />
-                    </ProtectedRouteUser>
-                  }
-                >
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/order" element={<PlaceOrder />} />
-                  <Route path="/my-orders" element={<OrderHistory />} />
+    <AxiosInterceptor>
+      <DndProvider backend={HTML5Backend}>
+        <StoreContextProvider>
+          <QueryClientProvider client={queryClient}>
+            <GlobalStyled>
+              <BrowserRouter>
+                <Routes>
                   <Route
-                    path="/order-details/:orderId"
-                    element={<OrderDetails />}
-                  />
-                </Route>
-                <Route element={<UserLayout />}>
-                  <Route path="/" element={<Home />} />
-                </Route>
-                <Route
-                  element={
-                    <ProtectedRouteAdmin>
-                      <AdminLayout />
-                    </ProtectedRouteAdmin>
-                  }
-                >
-                  <Route path="/admin/home" element={<HomeAdmin />} />
-                  <Route path="/admin/users" element={<UserPage />} />
-                  <Route path="/admin/orders" element={<OrderPage />} />
+                    element={
+                      <ProtectedRouteUser>
+                        <UserLayout />
+                      </ProtectedRouteUser>
+                    }
+                  >
+                    <Route path='/cart' element={<Cart />} />
+                    <Route path='/order' element={<PlaceOrder />} />
+                    <Route path='/my-orders' element={<OrderHistory />} />
+                    <Route
+                      path='/order-details/:orderId'
+                      element={<OrderDetails />}
+                    />
+                  </Route>
+                  <Route element={<UserLayout />}>
+                    <Route path='/' element={<Home />} />
+                  </Route>
                   <Route
-                    path="/admin/Orders/:orderId"
-                    element={<OrderDetailsPage />}
-                  />
-                  <Route path="/admin/products" element={<ProductPage />} />
-                </Route>
-                <Route path="/login" element={<Login />} />
-                <Route path="/admin/login" element={<LoginAdminPage />} />
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
-            </BrowserRouter>
-            <Toaster
-              position="top-center"
-              gutter={12}
-              containerStyle={{ margin: "8px" }}
-              toastOptions={{
-                success: {
-                  duration: 3000,
-                },
-                error: {
+                    element={
+                      <ProtectedRouteAdmin>
+                        <AdminLayout />
+                      </ProtectedRouteAdmin>
+                    }
+                  >
+                    <Route path='/admin' element={<HomeAdmin />} />
+                    <Route path='/admin/users' element={<UserPage />} />
+                    <Route path='/admin/orders' element={<OrderPage />} />
+                    <Route path='/admin/orders' element={<OrderPage />} />
+                    <Route
+                      path='/admin/order-details/:orderId'
+                      element={<OrderDetailsPage />}
+                    />
+                    <Route path='/admin/products' element={<ProductPage />} />
+                  </Route>
+                  <Route path='/login' element={<Login />} />
+                  <Route path='/verifyEmail' element={<VerfiyEmail />} />
+                  <Route path='/admin/login' element={<LoginAdminPage />} />
+                  <Route path='*' element={<PageNotFound />} />
+                </Routes>
+              </BrowserRouter>
+              <Toaster
+                position='top-center'
+                toastOptions={{
                   duration: 5000,
-                },
-                style: {
-                  fontSize: "16px",
-                  maxWidth: " 500px",
-                  padding: "24px 16px",
-                  backgroundcolor: "var(--color-grey-0)",
-                  color: "var(--color-grey-700)",
-                },
-              }}
-            />
-          </GlobalStyled>
-        </QueryClientProvider>
-      </StoreContextProvider>
-    </DndProvider>
+                  style: {
+                    background: "#ff4d4f",
+                    color: "#fff"
+                  }
+                }}
+              />
+            </GlobalStyled>
+          </QueryClientProvider>
+        </StoreContextProvider>
+      </DndProvider>
+    </AxiosInterceptor>
   </React.StrictMode>
 )

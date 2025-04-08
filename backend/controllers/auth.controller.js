@@ -28,14 +28,14 @@ export const signUp = async (req, res, next) => {
     const hasedPassword = await bcrypt.hash(password, salt)
 
     const newUser = await User.create([
-      { username, email, password: hasedPassword },
+      { username, email, password: hasedPassword }
     ])
 
     const token = jwt.sign(
       { userId: newUser[0].id, role: "user" },
       JWT_SECRET,
       {
-        expiresIn: JWT_EXPIRES_IN,
+        expiresIn: JWT_EXPIRES_IN
       }
     )
 
@@ -45,7 +45,7 @@ export const signUp = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: "User created successfully",
-      data: { token, user: newUser[0] },
+      data: { token, user: newUser[0] }
     })
   } catch (error) {
     await session.abortTransaction()
@@ -72,13 +72,19 @@ export const signIn = async (req, res, next) => {
     }
 
     const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN,
+      expiresIn: JWT_EXPIRES_IN
     })
+
+    // Tạo OTP mới
+    const otp = generateOTP()
+
+    sendOTP(email)
+    sendOTPEmail(email, otp)
 
     res.status(200).json({
       success: true,
       message: "User signed successfully",
-      data: { token, user },
+      data: { token, user }
     })
   } catch (error) {
     next(error)
@@ -107,13 +113,13 @@ export const signInAdmin = async (req, res, next) => {
     }
 
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN,
+      expiresIn: JWT_EXPIRES_IN
     })
 
     res.status(200).json({
       success: true,
       message: "User signed successfully",
-      data: { token, user },
+      data: { token, user }
     })
   } catch (error) {
     next(error)
@@ -126,10 +132,8 @@ const generateOTP = () => {
 }
 
 // Gửi OTP đến email
-export const sendOTP = async (req, res, next) => {
+export const sendOTP = async (email) => {
   try {
-    const { email } = req.body
-
     // Kiểm tra xem user có tồn tại không
     const user = await User.findOne({ email })
     if (!user) {
@@ -157,12 +161,13 @@ export const sendOTP = async (req, res, next) => {
       throw error
     }
 
-    res.status(200).json({
-      success: true,
-      message: "OTP đã được gửi đến email của bạn",
-    })
+    // res.status(200).json({
+    //   success: true,
+    //   message: "OTP đã được gửi đến email của bạn"
+    // })
   } catch (error) {
-    next(error)
+    // next(error)
+    throw new Error("Không thể gửi OTP. Vui lòng thử lại.")
   }
 }
 
@@ -192,7 +197,7 @@ export const verifyOTP = async (req, res, next) => {
 
     // Tạo JWT token
     const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN,
+      expiresIn: JWT_EXPIRES_IN
     })
 
     // Xóa OTP đã sử dụng
@@ -201,7 +206,7 @@ export const verifyOTP = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Đăng nhập thành công",
-      data: { token, user },
+      data: { token, user }
     })
   } catch (error) {
     next(error)
